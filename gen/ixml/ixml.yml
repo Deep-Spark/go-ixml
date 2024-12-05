@@ -1,0 +1,49 @@
+--- 
+GENERATOR:
+  PackageName: ixml
+  PackageDescription: "Package IXML Bindings"
+  Includes: ["api.h"]
+  FlagGroups:
+    - {name: "LDFLAGS", flags: ["-Wl,--export-dynamic","-Wl,--unresolved-symbols=ignore-in-object-files"]}
+    - {name: "CFLAGS", flags: ["-DNVML_NO_UNVERSIONED_FUNC_DEFS=1"]}
+PARSER:
+  SourcesPaths: 
+    - "api.h"
+  Defines:
+    NVML_NO_UNVERSIONED_FUNC_DEFS: 1
+TRANSLATOR:
+  ConstRules:
+    defines: eval
+    enum: eval
+  PtrTips:
+    function:
+      - {target: "^nvml", default: "sref"}
+      - {target: "^ixml", default: "sref"}
+  MemTips:
+    - {target: "^nvml", default: "raw"}
+  Rules:
+    const:
+      - {action: accept, from: "^NVML_"}
+      - {action: accept, from: "^nvml"}
+      - {action: replace, from: "^NVML_"}
+      - {action: replace, from: "^nvml"}
+      - {action: accept, from: "^IXML_"}
+      - {action: accept, from: "^ixml"}
+      - {action: replace, from: "^IXML_"}
+      - {action: replace, from: "^ixml"}
+      - {transform: export}
+    type:
+      - {action: accept, from: "^nvml"}
+      - {action: replace, from: "^nvml"}
+      - {action: replace, from: "_t$"}
+      - {transform: export}
+      - {action: replace, from: "^GpmMetricsGet", to: "nvmlGpmMetricsGetType"}
+    function:
+      - {action: accept, from: "^ixml"}
+      - {action: accept, from: "^nvml"}
+      - {action: replace, from: "^nvmlInit_v2", to: "nvmlInit"}
+      - {action: replace, from: "^nvmlDeviceGetHandleByIndex_v2", to: "nvmlDeviceGetHandleByIndex"}
+      - {action: replace, from: "^nvmlDeviceGetCount_v2", to: "nvmlDeviceGetCount"}
+      - {action: replace, from: "^nvmlDeviceGetHandleByIndex_v2", to: "nvmlDeviceGetHandleByIndex"}
+      - {action: replace, from: "^nvmlDeviceGetPciInfo_v3", to: "nvmlDeviceGetPciInfo"}
+      - {transform: unexport}
