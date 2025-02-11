@@ -39,7 +39,6 @@ func main() {
 	ret := ixml.Init()
 	if ret != ixml.SUCCESS {
 		log.Fatalf("Unable to initialize IXML: %v", ret)
-		return
 	}
 	defer func() {
 		ret := ixml.Shutdown()
@@ -50,12 +49,12 @@ func main() {
 
 	device1, ret := ixml.GetHandleByUUID(defalutGpu1)
 	if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to get Handle by uuid %v", ret)
+		log.Fatalf("Unable to get handle by uuid %v", ret)
 	}
 
 	name1, ret := device1.GetName()
 	if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to get name1 %v", ret)
+		log.Fatalf("Unable to get name of Device1: %v", ret)
 	}
 	fmt.Printf("name1: %s\n", name1)
 
@@ -66,7 +65,7 @@ func main() {
 
 	name2, ret := device2.GetName()
 	if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to get name2 %v", ret)
+		log.Fatalf("Unable to get name of Device2: %v", ret)
 	}
 	fmt.Printf("name2: %s\n", name2)
 
@@ -74,9 +73,9 @@ func main() {
 	if ret == ixml.ERROR_NOT_SUPPORTED {
 		fmt.Printf("GetOnSameBoard: Not supported\n")
 	} else if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to get OnSameBoard %v", ret)
+		log.Printf("Device1 and Device2 Not On Same Board: %v\n", ret)
 	} else {
-		fmt.Printf("device1 && device2 On Same Board: %d\n", OnSameBoard)
+		fmt.Printf("Device1 and Device2 On Same Board: %d\n", OnSameBoard)
 	}
 
 	fmt.Println("========================================")

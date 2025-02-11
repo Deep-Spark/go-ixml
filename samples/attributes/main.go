@@ -32,7 +32,6 @@ func main() {
 	ret := ixml.Init()
 	if ret != ixml.SUCCESS {
 		log.Fatalf("Unable to initialize IXML: %v", ret)
-		return
 	}
 	defer func() {
 		ret := ixml.Shutdown()
@@ -60,13 +59,13 @@ func main() {
 
 	Integer, Decimal, ret := device.GetGPUVoltage()
 	if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to get Integer, Decimal %v", ret)
+		log.Fatalf("Unable to get GPU Voltage: %v", ret)
 	}
-	fmt.Printf("Integer, Decimal: %v.%v\n", Integer, Decimal)
+	fmt.Printf("GPU Voltage: %v.%v\n", Integer, Decimal)
 
 	pos, ret := device.GetBoardPosition()
 	if ret == ixml.ERROR_NOT_SUPPORTED {
-		fmt.Printf("position interface: Not supported\n")
+		fmt.Printf("GetBoardPosition interface is not supported\n")
 	} else if ret != ixml.SUCCESS {
 		log.Fatalf("Unable to get BoardPosition %v", ret)
 	} else {

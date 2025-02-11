@@ -28,23 +28,22 @@ import (
 func main() {
 	ret := ixml.AbsInit("/usr/local/corex/lib/libixml.so")
 	if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to initialize IXML: %v", ret)
-		return
+		log.Fatalf("failed to initialize IXML: %v", ret)
 	}
 	defer func() {
 		ret := ixml.Shutdown()
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to shutdown IXML: %v", ret)
+			log.Fatalf("failed to shutdown IXML: %v", ret)
 		}
 	}()
 
 	count, ret := ixml.DeviceGetCount()
 	if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to get device count %v", ret)
+		log.Fatalf("failed to get device count: %v", ret)
 	}
 	for i := uint(0); i < count; i++ {
 		if err := collectGPMMetrics(i); err != nil {
-			log.Fatalf("Unable to collect metrics for device %d: %v", i, err)
+			log.Printf("failed to collect metrics for device %d: %v", i, err)
 		}
 	}
 
@@ -54,38 +53,38 @@ func collectGPMMetrics(i uint) error {
 	var device ixml.Device
 	ret := ixml.DeviceGetHandleByIndex(i, &device)
 	if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to get device at index %d: %v", i, ret)
+		return fmt.Errorf("failed to get device at index %d: %v", i, ret)
 	}
 
 	gpuQuerySupport, ret := device.GpmQueryDeviceSupport()
 	if ret != ixml.SUCCESS {
-		return fmt.Errorf("could not query GPM support: %w", ret)
+		return fmt.Errorf("failed to query GPM support: %v", ret)
 	}
 	if gpuQuerySupport.IsSupportedDevice == 0 {
 		return fmt.Errorf("GPM queries are not supported")
 	}
-	fmt.Printf("GPM queries are supported\n")
+	fmt.Printf("GPM queries are supported for device %d\n", i)
 
 	sample1, ret := ixml.GpmSampleAlloc()
 	if ret != ixml.SUCCESS {
-		return fmt.Errorf("could not allocate GPM sample: %w", ret)
+		return fmt.Errorf("failed to allocate GPM sample1: %v", ret)
 	}
 	defer func() {
 		_ = sample1.Free()
 	}()
 	sample2, ret := ixml.GpmSampleAlloc()
 	if ret != ixml.SUCCESS {
-		return fmt.Errorf("could not allocate GPM sample: %w", ret)
+		return fmt.Errorf("failed to allocate GPM sample2: %v", ret)
 	}
 	defer func() {
 		_ = sample2.Free()
 	}()
 	if ret := device.GpmSampleGet(sample1); ret != ixml.SUCCESS {
-		return fmt.Errorf("could not get GPM sample: %w", ret)
+		return fmt.Errorf("failed to get GPM sample1: %v", ret)
 	}
 	time.Sleep(1 * time.Second)
 	if ret := device.GpmSampleGet(sample2); ret != ixml.SUCCESS {
-		return fmt.Errorf("could not get GPM sample: %w", ret)
+		return fmt.Errorf("failed to get GPM sample2: %v", ret)
 	}
 
 	gpmMetric := ixml.GpmMetricsGetType{
@@ -107,12 +106,13 @@ func collectGPMMetrics(i uint) error {
 
 	ret = ixml.GpmMetricsGet(&gpmMetric)
 	if ret != ixml.SUCCESS {
-		return fmt.Errorf("failed to get gpm metric: %w", ret)
+		return fmt.Errorf("failed to get gpm metric: %v", ret)
 	}
 
+	fmt.Printf("success to get gpm metric for device %d\n", i)
 	for i := 0; i < int(gpmMetric.NumMetrics); i++ {
 		if gpmMetric.Metrics[i].MetricId > 0 {
-			fmt.Printf("gpmMetric id: %v, value: %v\n", gpmMetric.Metrics[i].MetricId, gpmMetric.Metrics[i].Value)
+			fmt.Printf("gpm metric id: %+4v, value: %v\n", gpmMetric.Metrics[i].MetricId, gpmMetric.Metrics[i].Value)
 		}
 	}
 

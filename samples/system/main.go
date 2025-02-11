@@ -28,7 +28,6 @@ func main() {
 	ret := ixml.Init()
 	if ret != ixml.SUCCESS {
 		log.Fatalf("Unable to initialize IXML: %v", ret)
-		return
 	}
 	defer func() {
 		ret := ixml.Shutdown()
