@@ -28,7 +28,6 @@ func main() {
 	ret := ixml.AbsInit("/usr/local/corex/lib/libixml.so")
 	if ret != ixml.SUCCESS {
 		log.Fatalf("Unable to initialize IXML: %v", ret)
-		return
 	}
 	defer func() {
 		ret := ixml.Shutdown()
@@ -45,12 +44,14 @@ func main() {
 		var device ixml.Device
 		ret := ixml.DeviceGetHandleByIndex(i, &device)
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get device at index %d: %v", i, ret)
+			fmt.Printf("Unable to get device at index %d: %v\n", i, ret)
+			continue
 		}
 
 		processInfos, ret := device.GetComputeRunningProcesses()
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get processInfos %d: %v", i, ret)
+			fmt.Printf("Unable to get processInfos %d: %v\n", i, ret)
+			continue
 		}
 
 		fmt.Printf("found processInfos %d on device %d\n", len(processInfos), i)

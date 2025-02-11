@@ -28,7 +28,6 @@ func main() {
 	ret := ixml.Init()
 	if ret != ixml.SUCCESS {
 		log.Fatalf("Unable to initialize IXML: %v", ret)
-		return
 	}
 	defer func() {
 		ret := ixml.Shutdown()
@@ -47,72 +46,98 @@ func main() {
 		var device ixml.Device
 		ret = ixml.DeviceGetHandleByIndex(i, &device)
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get device at index %d: %v", i, ret)
+			fmt.Printf("Unable to get device at index %d: %v\n", i, ret)
+		} else {
+			fmt.Printf("Get device at index %d\n", i)
 		}
 
 		Uuid, ret := device.GetUUID()
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get GPU Uuid of device %d: %v", i, ret)
+			fmt.Printf("Unable to get GPU Uuid of device %d: %v\n", i, ret)
+		} else {
+			fmt.Printf("Uuid of device %d: %s\n", i, Uuid)
 		}
-		fmt.Printf("Uuid of device %d: %s\n", i, Uuid)
 
 		MinorNumber, ret := device.GetMinorNumber()
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get GPU MinorNumber of device %d: %v", i, ret)
+			fmt.Printf("Unable to get GPU MinorNumber of device %d: %v\n", i, ret)
+		} else {
+			fmt.Printf("MinorNumber of device %d: %d\n", i, MinorNumber)
 		}
-		fmt.Printf("MinorNumber of device %d: %d\n", i, MinorNumber)
 
 		temperature, ret := device.GetTemperature()
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get GPU temperature of device %d: %v", i, ret)
+			fmt.Printf("Unable to get GPU temperature of device %d: %v\n", i, ret)
+		} else {
+			fmt.Printf("temperature of device %d: %d\n", i, temperature)
 		}
-		fmt.Printf("temperature of device %d: %d\n", i, temperature)
 
 		FanSpeed, ret := device.GetFanSpeed()
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get GPU FanSpeed of device %d: %v", i, ret)
+			fmt.Printf("Unable to get GPU FanSpeed of device %d: %v\n", i, ret)
+		} else {
+			fmt.Printf("FanSpeed of device %d: %d\n", i, FanSpeed)
 		}
-		fmt.Printf("FanSpeed of device %d: %d\n", i, FanSpeed)
 
 		ClockInfo, ret := device.GetClockInfo()
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get GPU MemClock of device %d: %v", i, ret)
+			fmt.Printf("Unable to get GPU MemClock of device %d: %v\n", i, ret)
+		} else {
+			fmt.Printf("MemClock of device %d: %d\n", i, ClockInfo.Mem)
 		}
-		fmt.Printf("MemClock of device %d: %d\n", i, ClockInfo.Mem)
 
 		MemoryInfo, ret := device.GetMemoryInfo()
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get GPU MemoryInfo of device %d: %v", i, ret)
+			fmt.Printf("Unable to get MemoryInfo of device %d: %v\n", i, ret)
+		} else {
+			fmt.Printf("MemoryInfo totalMem of device %d: %d (MiB)\n", i, MemoryInfo.Total)
+			fmt.Printf("MemoryInfo usedMem of device %d: %d (MiB)\n", i, MemoryInfo.Used)
+			fmt.Printf("MemoryInfo freeMem of device %d: %v (MiB)\n", i, MemoryInfo.Free)
 		}
-		fmt.Printf("MemoryInfo totalMem of device %d: %d (MiB)\n", i, MemoryInfo.Total)
-		fmt.Printf("MemoryInfo usedMem of device %d: %d (MiB)\n", i, MemoryInfo.Used)
-		fmt.Printf("MemoryInfo freeMem of device %d: %v (MiB)\n", i, MemoryInfo.Free)
 
 		utilizationRates, ret := device.GetUtilizationRates()
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get GPU utilizationRates of device %d: %v", i, ret)
+			fmt.Printf("Unable to get UtilizationRates of device %d: %v\n", i, ret)
+		} else {
+			fmt.Printf("Mem utilizationRates of device %d: %d\n", i, utilizationRates.Memory)
+			fmt.Printf("GPU utilizationRates of device %d: %d\n", i, utilizationRates.Gpu)
 		}
-		fmt.Printf("Mem utilizationRates of device %d: %d\n", i, utilizationRates.Memory)
-		fmt.Printf("GPU utilizationRates of device %d: %d\n", i, utilizationRates.Gpu)
 
 		PciInfo, ret := device.GetPciInfo()
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get GPU PciInfo of device %d: %v", i, ret)
+			fmt.Printf("Unable to get PciInfo of device %d: %v\n", i, ret)
+		} else {
+			fmt.Printf("PciInfo of device %d: %v\n", i, PciInfo.BusId)
 		}
-		fmt.Printf("PciInfo of device %d: %v\n", i, PciInfo.BusId)
+
+		pcieReplyCnt, ret := device.GetPcieReplayCounter()
+		if ret != ixml.SUCCESS {
+			fmt.Printf("Unable to get PcieReplayCounter of device %d: %v\n", i, ret)
+		} else {
+			fmt.Printf("PcieReplayCounter of device %d: %v\n", i, pcieReplyCnt)
+		}
 
 		clocksThrottleReasons, ret := device.GetCurrentClocksThrottleReasons()
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get GPU clocksThrottleReasons of device %d: %v", i, ret)
+			fmt.Printf("Unable to get GPU ClocksThrottleReasons of device %d: %v\n", i, ret)
+		} else {
+			fmt.Printf("ClocksThrottleReasons of device %d: %v\n", i, clocksThrottleReasons)
 		}
-		fmt.Printf("clocksThrottleReasons of device %d: %v\n", i, clocksThrottleReasons)
 
 		singleErr, doubleErr, ret := device.GetEccErros()
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get ecc errors %d: %v", i, ret)
+			fmt.Printf("Unable to get ecc errors %d: %v\n", i, ret)
+		} else {
+			fmt.Printf("singleErr: %d, doubleErr: %d\n", singleErr, doubleErr)
 		}
-		fmt.Printf("singleErr: %d, doubleErr: %d\n", singleErr, doubleErr)
 
-		fmt.Println("========================================")
+		minLimit, maxLimit, ret := device.GetPowerManagementLimitConstraints()
+		if ret != ixml.SUCCESS {
+			fmt.Printf("Unable to get PowerManagementLimitConstraints of device %d: %v\n", i, ret)
+		} else {
+			fmt.Printf("minLimit: %d, maxLimit: %d\n", minLimit, maxLimit)
+		}
+
+		fmt.Println("------------------------------------")
 	}
 }
