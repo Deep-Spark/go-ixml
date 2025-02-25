@@ -10,9 +10,7 @@ The installation of GO-IXML is very simple, just execute the following command i
 ```shell
 $ make bindings
 ```
-
-## Samples
-
+## Sample
 The following is a simple example of how to use GO-IXML to call the ixml API:
 
 ```go
@@ -43,56 +41,68 @@ func main() {
 	if ret != ixml.SUCCESS {
 		log.Fatalf("Unable to get device count: %v", ret)
 	}
-	fmt.Printf("GPU Count: %v\n", count)
+	fmt.Printf("GPU Count: %d\n", count)
 
 	for i := 0; i < count; i++ {
 		var device ixml.Device
 		ret = ixml.DeviceGetHandleByIndex(i, &device)
-
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get device at index %d: %v", i, ret)
+			log.Fatalf("Unable to get device handle at index %d: %v", i, ret)
 		}
 
-		ID, ret := device.GetMinorNumber()
+		minor, ret := device.GetMinorNumber()
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get id of device at index %v: %v", ID, ret)
+			log.Fatalf("Unable to get the minor of device at index %d: %v", i, ret)
 		}
-
-		fmt.Printf("ID: %v\n", ID)
+		fmt.Printf("Device Minor: %v\n", minor)
 
 		uuid, ret := device.GetUUID()
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get uuid of device at uuid %d: %v", i, ret)
+			log.Fatalf("Unable to get the uuid of device at index %d: %v", i, ret)
 		}
-		fmt.Printf("len(uuid): %v, uuid: %v\n", len(uuid), uuid)
+		fmt.Printf("Device Uuid: %s\n", uuid)
 
 		name, ret := device.GetName()
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get name of device %d: %v", i, ret)
+			log.Fatalf("Unable to get the name of device %d: %v", i, ret)
 		}
 		fmt.Printf("Device Name: %v\n", name)
 
-		hardWareVersion, ret := device.GetHardWareVersion()
+		driverVersion, ret := ixml.SystemGetDriverVersion()
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get hardware version of device %d: %v", i, ret)
+			log.Fatalf("Unable to get the system driver version: %v", ret)
 		}
-		fmt.Printf("hardWare Version: %v\n", hardWareVersion)
-
-		integer, decimal, ret := device.GetGPUVoltage()
-		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get GPU voltage of device %d: %v", i, ret)
-		}
-		fmt.Printf("GPU Voltage: %v.%v\n", integer, decimal)
-
-		pn, ret := device.GetBoardPn()
-		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to get Board Pn of device %d: %v", i, ret)
-		}
-		fmt.Printf("pn: %s\n", pn)
-
-		fmt.Printf("========================================\n")
+		fmt.Printf("System Driver Version: %v\n", driverVersion)
 	}
 }
+```
+## More Samples
+
+The `samples` folder contains more simple examples of how to use GO-IXML to call the ixml API.
+
+To get device attributes, run the following command:
+```bash
+go run samples/attributes/main.go
+```
+
+To get basic metrics of device, run the following command:
+```bash
+go run samples/metrics/main.go
+```
+
+To get gpm metrics of device, run the following command:
+```bash
+go run samples/gpmmetrics/main.go
+```
+
+To get running process information of device,run the following command:
+```bash
+go run samples/processinfo/main.go
+```
+
+To get system information such as driver version and CUDA version, run the following command:
+```bash
+go run samples/system/main.go
 ```
 
 ## License

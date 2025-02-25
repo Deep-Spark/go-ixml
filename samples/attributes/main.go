@@ -25,41 +25,63 @@ import (
 )
 
 const defalutGpu = "GPU-6d2ec5fa-f293-57a3-9f2c-335f78120578"
+const gpu2 = "GPU-7edb0dc9-9291-5e13-9e1c-ad92672bdfec"
 
+func checkOnSameBoard(uuid1, uuid2 string) error {
+	device1, ret := ixml.GetHandleByUUID(uuid1)
+	if ret != ixml.SUCCESS {
+		return fmt.Errorf("failed to get handle by uuid, ret: %v", ret)
+	}
+	device2, ret := ixml.GetHandleByUUID(uuid2)
+	if ret != ixml.SUCCESS {
+		return fmt.Errorf("failed to get Handle by uuid, ret: %v", ret)
+	}
+
+	OnSameBoard, ret := ixml.GetOnSameBoard(device1, device2)
+	if ret == ixml.ERROR_NOT_SUPPORTED {
+		return fmt.Errorf("nvmlDeviceOnSameBoard: ERROR_NOT_SUPPORTED")
+	} else if ret != ixml.SUCCESS {
+		return fmt.Errorf("%s and %s are NOT on same board: %v", uuid1, uuid2, ret)
+	} else {
+		fmt.Printf("%s and %s on same board: %d\n", uuid1, uuid2, OnSameBoard)
+	}
+	return nil
+}
 func main() {
 	var device ixml.Device
 
 	ret := ixml.Init()
 	if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to initialize IXML: %v", ret)
+		log.Fatalf("Unable to initialize IXML, ret: %v", ret)
 	}
 	defer func() {
 		ret := ixml.Shutdown()
 		if ret != ixml.SUCCESS {
-			log.Fatalf("Unable to shutdown IXML: %v", ret)
+			log.Fatalf("Unable to shutdown IXML, ret: %v", ret)
 		}
 	}()
 
+	fmt.Printf("Start to get attributes of device: %s\n", defalutGpu)
 	device, ret = ixml.GetHandleByUUID(defalutGpu)
 	if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to get Handle by uuid %v", ret)
+		log.Fatalf("Unable to get Handle by uuid, ret: %v", ret)
 	}
 
 	name, ret := device.GetName()
 	if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to get name %v", ret)
+		log.Fatalf("Unable to get name, ret: %v", ret)
 	}
 	fmt.Printf("name:%s, len(name): %d\n", name, len(name))
 
 	index, ret := device.GetIndex()
 	if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to get index %v", ret)
+		log.Fatalf("Unable to get index, ret: %v", ret)
 	}
 	fmt.Printf("index: %d\n", index)
 
 	Integer, Decimal, ret := device.GetGPUVoltage()
 	if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to get GPU Voltage: %v", ret)
+		log.Fatalf("Unable to get GPU Voltage, ret: %v", ret)
 	}
 	fmt.Printf("GPU Voltage: %v.%v\n", Integer, Decimal)
 
@@ -67,16 +89,20 @@ func main() {
 	if ret == ixml.ERROR_NOT_SUPPORTED {
 		fmt.Printf("GetBoardPosition interface is not supported\n")
 	} else if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to get BoardPosition %v", ret)
+		log.Fatalf("Unable to get BoardPosition, ret: %v", ret)
 	} else {
 		fmt.Printf("position: %d\n", pos)
 	}
 
 	usage, ret := device.GetPowerUsage()
 	if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to get usage %v", ret)
+		log.Fatalf("Unable to get usage, ret: %v", ret)
 	}
 	fmt.Printf("usage: %d\n", usage)
+
+	if err := checkOnSameBoard(defalutGpu, gpu2); err != nil {
+		fmt.Println(err)
+	}
 
 	fmt.Println("========================================")
 }
