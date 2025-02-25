@@ -27,22 +27,22 @@ all: bindings
 test: test-bindings
 clean: clean-bindings
 
-$(PKG_BINDINGS_DIR): $(SOURCES)
-	c-for-go -out $(PKG_DIR) $(GEN_BINDINGS_DIR)/ixml.yml
-	cp $(GEN_BINDINGS_DIR)/*.go $(PKG_BINDINGS_DIR)
-	cp $(GEN_BINDINGS_DIR)/*.h $(PKG_BINDINGS_DIR)
+bindings: $(SOURCES)
+	rm -rf $(PKG_BINDINGS_DIR)/{ixml,doc,const,cgo_helpers,types,types_gen}.go
+	c-for-go -nostamp -out $(PKG_DIR) $(GEN_BINDINGS_DIR)/ixml.yml
+	cp -f $(GEN_BINDINGS_DIR)/*.h $(PKG_BINDINGS_DIR)
+	cp -f $(GEN_BINDINGS_DIR)/cgo_helpers.go $(PKG_BINDINGS_DIR)
 	cd $(PKG_BINDINGS_DIR); \
 		go tool cgo -godefs types.go > types_gen.go; \
 		go fmt types_gen.go; \
 	cd -> /dev/null
 	rm -rf $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj
 
-bindings: $(PKG_BINDINGS_DIR)
-
-test-bindings: $(PKG_BINDINGS_DIR)
+test-bindings: bindings
 	cd $(PKG_BINDINGS_DIR); \
 		go test -v .; \
 	cd -> /dev/null
 
 clean-bindings:
-	rm -rf $(PKG_BINDINGS_DIR)
+	rm -rf $(PKG_BINDINGS_DIR)/{ixml,doc,const,cgo_helpers,types,types_gen}.go
+	rm -rf $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj
