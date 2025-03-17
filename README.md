@@ -1,8 +1,10 @@
 # GO-IXML
 
-GO-IXML is Go bindings for the **IluvatarCorex Management Library API(ixml)**.
+GO-IXML is Go bindings for the **IluvatarCorex Management Library API(IXML)**.
 
-**Note:** The runtime environment requires the library of **libixml.so**, please install **IluvatarCorex** SDK firstly.
+**Note:** 
+- The runtime environment requires the library of **libixml.so**, please install IX SDK firstly.
+- The current version of GO-IXML is compatible with IX driver version **4.2.0**.
 
 ## Build
 
