@@ -13,46 +13,46 @@ package ixml
 import "C"
 
 const (
-	// GPM_METRICS_GET_VERSION as defined in ixml/api.h:375
+	// GPM_METRICS_GET_VERSION as defined in ixml/api.h:400
 	GPM_METRICS_GET_VERSION = 1
-	// GPM_SUPPORT_VERSION as defined in ixml/api.h:386
+	// GPM_SUPPORT_VERSION as defined in ixml/api.h:411
 	GPM_SUPPORT_VERSION = 1
-	// DEVICE_UUID_BUFFER_SIZE as defined in ixml/api.h:390
+	// DEVICE_UUID_BUFFER_SIZE as defined in ixml/api.h:415
 	DEVICE_UUID_BUFFER_SIZE = 80
-	// SYSTEM_DRIVER_VERSION_BUFFER_SIZE as defined in ixml/api.h:395
+	// SYSTEM_DRIVER_VERSION_BUFFER_SIZE as defined in ixml/api.h:420
 	SYSTEM_DRIVER_VERSION_BUFFER_SIZE = 80
-	// DEVICE_NAME_BUFFER_SIZE as defined in ixml/api.h:400
+	// DEVICE_NAME_BUFFER_SIZE as defined in ixml/api.h:425
 	DEVICE_NAME_BUFFER_SIZE = 64
-	// DEVICE_NAME_V2_BUFFER_SIZE as defined in ixml/api.h:405
+	// DEVICE_NAME_V2_BUFFER_SIZE as defined in ixml/api.h:430
 	DEVICE_NAME_V2_BUFFER_SIZE = 96
-	// DEVICE_PCI_BUS_ID_BUFFER_SIZE as defined in ixml/api.h:410
+	// DEVICE_PCI_BUS_ID_BUFFER_SIZE as defined in ixml/api.h:435
 	DEVICE_PCI_BUS_ID_BUFFER_SIZE = 32
-	// DEVICE_PCI_BUS_ID_BUFFER_V2_SIZE as defined in ixml/api.h:415
+	// DEVICE_PCI_BUS_ID_BUFFER_V2_SIZE as defined in ixml/api.h:440
 	DEVICE_PCI_BUS_ID_BUFFER_V2_SIZE = 16
-	// HealthSYSHUBError as defined in ixml/api.h:417
+	// HealthSYSHUBError as defined in ixml/api.h:442
 	HealthSYSHUBError = int64(0x0000000000000001)
-	// HealthMCError as defined in ixml/api.h:418
+	// HealthMCError as defined in ixml/api.h:443
 	HealthMCError = int64(0x0000000000000002)
-	// HealthOverTempError as defined in ixml/api.h:419
+	// HealthOverTempError as defined in ixml/api.h:444
 	HealthOverTempError = int64(0x0000000000000004)
-	// HealthOverVoltageError as defined in ixml/api.h:420
+	// HealthOverVoltageError as defined in ixml/api.h:445
 	HealthOverVoltageError = int64(0x0000000000000008)
-	// HealthECCError as defined in ixml/api.h:421
+	// HealthECCError as defined in ixml/api.h:446
 	HealthECCError = int64(0x0000000000000010)
-	// HealthMemoryError as defined in ixml/api.h:422
+	// HealthMemoryError as defined in ixml/api.h:447
 	HealthMemoryError = int64(0x0000000000000020)
-	// HealthPCIEError as defined in ixml/api.h:423
+	// HealthPCIEError as defined in ixml/api.h:448
 	HealthPCIEError = int64(0x0000000000000040)
-	// HealthOK as defined in ixml/api.h:424
+	// HealthOK as defined in ixml/api.h:449
 	HealthOK = int64(0x0000000000000000)
 	// NO_UNVERSIONED_FUNC_DEFS as defined in go-ixml/<predefined>:349
 	NO_UNVERSIONED_FUNC_DEFS = 1
 )
 
-// Return as declared in ixml/api.h:128
+// Return as declared in ixml/api.h:129
 type Return int32
 
-// Return enumeration from ixml/api.h:128
+// Return enumeration from ixml/api.h:129
 const (
 	SUCCESS                         Return = iota
 	ERROR_UNINITIALIZED             Return = 1
@@ -83,19 +83,34 @@ const (
 	ERROR_UNKNOWN                   Return = 999
 )
 
-// TemperatureSensors as declared in ixml/api.h:175
+// TemperatureThresholds as declared in ixml/api.h:190
+type TemperatureThresholds int32
+
+// TemperatureThresholds enumeration from ixml/api.h:190
+const (
+	TEMPERATURE_THRESHOLD_SHUTDOWN      TemperatureThresholds = iota
+	TEMPERATURE_THRESHOLD_SLOWDOWN      TemperatureThresholds = 1
+	TEMPERATURE_THRESHOLD_MEM_MAX       TemperatureThresholds = 2
+	TEMPERATURE_THRESHOLD_GPU_MAX       TemperatureThresholds = 3
+	TEMPERATURE_THRESHOLD_ACOUSTIC_MIN  TemperatureThresholds = 4
+	TEMPERATURE_THRESHOLD_ACOUSTIC_CURR TemperatureThresholds = 5
+	TEMPERATURE_THRESHOLD_ACOUSTIC_MAX  TemperatureThresholds = 6
+	TEMPERATURE_THRESHOLD_COUNT         TemperatureThresholds = 7
+)
+
+// TemperatureSensors as declared in ixml/api.h:201
 type TemperatureSensors int32
 
-// TemperatureSensors enumeration from ixml/api.h:175
+// TemperatureSensors enumeration from ixml/api.h:201
 const (
 	TEMPERATURE_GPU   TemperatureSensors = iota
 	TEMPERATURE_COUNT TemperatureSensors = 1
 )
 
-// ClockType as declared in ixml/api.h:191
+// ClockType as declared in ixml/api.h:217
 type ClockType int32
 
-// ClockType enumeration from ixml/api.h:191
+// ClockType enumeration from ixml/api.h:217
 const (
 	CLOCK_GRAPHICS ClockType = iota
 	CLOCK_SM       ClockType = 1
@@ -104,10 +119,10 @@ const (
 	CLOCK_COUNT    ClockType = 4
 )
 
-// GpuTopologyLevel as declared in ixml/api.h:230
+// GpuTopologyLevel as declared in ixml/api.h:256
 type GpuTopologyLevel int32
 
-// GpuTopologyLevel enumeration from ixml/api.h:230
+// GpuTopologyLevel enumeration from ixml/api.h:256
 const (
 	TOPOLOGY_INTERNAL   GpuTopologyLevel = iota
 	TOPOLOGY_SINGLE     GpuTopologyLevel = 10
@@ -117,10 +132,10 @@ const (
 	TOPOLOGY_SYSTEM     GpuTopologyLevel = 50
 )
 
-// GpmMetricId as declared in ixml/api.h:320
+// GpmMetricId as declared in ixml/api.h:345
 type GpmMetricId int32
 
-// GpmMetricId enumeration from ixml/api.h:320
+// GpmMetricId enumeration from ixml/api.h:345
 const (
 	GPM_METRIC_GRAPHICS_UTIL           GpmMetricId = 1
 	GPM_METRIC_SM_UTIL                 GpmMetricId = 2

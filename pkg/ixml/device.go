@@ -292,6 +292,16 @@ func deviceGetTopology(device, device2 Device) (GpuTopologyLevel, Return) {
 	return pathInfo, ret
 }
 
+func (device Device) GetPowerManagementLimit() (uint32, Return) {
+	var limit uint32
+	ret := nvmlDeviceGetPowerManagementLimit(device, &limit)
+	return limit, ret
+}
+
+func DeviceGetPowerManagementLimit(device Device) (uint32, Return) {
+	return device.GetPowerManagementLimit()
+}
+
 func (device Device) GetPowerManagementLimitConstraints() (uint32, uint32, Return) {
 	return deviceGetPowerManagementLimitConstraints(device)
 }
@@ -300,4 +310,28 @@ func deviceGetPowerManagementLimitConstraints(device Device) (uint32, uint32, Re
 	var minLimit, maxLimit uint32
 	ret := nvmlDeviceGetPowerManagementLimitConstraints(device, &minLimit, &maxLimit)
 	return minLimit, maxLimit, ret
+}
+
+func DeviceGetPowerManagementLimitConstraints(device Device) (uint32, uint32, Return) {
+	return device.GetPowerManagementLimitConstraints()
+}
+
+func (device Device) GetPowerManagementDefaultLimit() (uint32, Return) {
+	var defaultLimit uint32
+	ret := nvmlDeviceGetPowerManagementDefaultLimit(device, &defaultLimit)
+	return defaultLimit, ret
+}
+
+func DeviceGetPowerManagementDefaultLimit(device Device) (uint32, Return) {
+	return device.GetPowerManagementDefaultLimit()
+}
+
+func (device Device) GetTemperatureThreshold(thresholdType TemperatureThresholds) (uint32, Return) {
+	var temp uint32
+	ret := nvmlDeviceGetTemperatureThreshold(device, thresholdType, &temp)
+	return temp, ret
+}
+
+func DeviceGetTemperatureThreshold(device Device, thresholdType TemperatureThresholds) (uint32, Return) {
+	return device.GetTemperatureThreshold(thresholdType)
 }
