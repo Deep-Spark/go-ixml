@@ -45,7 +45,7 @@ const (
 	HealthPCIEError = int64(0x0000000000000040)
 	// HealthOK as defined in ixml/api.h:449
 	HealthOK = int64(0x0000000000000000)
-	// NO_UNVERSIONED_FUNC_DEFS as defined in go-ixml/<predefined>:349
+	// NO_UNVERSIONED_FUNC_DEFS as defined in go-ixml/<predefined>:348
 	NO_UNVERSIONED_FUNC_DEFS = 1
 )
 

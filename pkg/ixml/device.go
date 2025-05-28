@@ -44,6 +44,14 @@ func deviceGetUUID(Device Device) (string, Return) {
 	return removeBytesSpaces(Uuid), ret
 }
 
+// DeviceGetHandleByPciBusId returns a handle to the device with the specified PCI bus ID.
+// The PCI bus ID is a string in the format "domain:bus:device.function", e.g., "00000000:1F:00.0".
+func DeviceGetHandleByPciBusId(pciBusId string) (Device, Return) {
+	var device Device
+	ret := nvmlDeviceGetHandleByPciBusId_v2(pciBusId+string(rune(0)), &device)
+	return device, ret
+}
+
 func (device Device) GetMinorNumber() (int, Return) {
 	return deviceGetMinorNumber(device)
 }

@@ -61,7 +61,18 @@ func nvmlDeviceGetHandleByUUID(Uuid string, Device *Device) Return {
 	return __v
 }
 
-// nvmlDeviceGetMinorNumber function as declared in ixml/api.h:626
+// nvmlDeviceGetHandleByPciBusId_v2 function as declared in ixml/api.h:637
+func nvmlDeviceGetHandleByPciBusId_v2(PciBusId string, Device *Device) Return {
+	cPciBusId, cPciBusIdAllocMap := unpackPCharString(PciBusId)
+	cDevice, cDeviceAllocMap := (*C.nvmlDevice_t)(unsafe.Pointer(Device)), cgoAllocsUnknown
+	__ret := C.nvmlDeviceGetHandleByPciBusId_v2(cPciBusId, cDevice)
+	runtime.KeepAlive(cDeviceAllocMap)
+	runtime.KeepAlive(cPciBusIdAllocMap)
+	__v := (Return)(__ret)
+	return __v
+}
+
+// nvmlDeviceGetMinorNumber function as declared in ixml/api.h:656
 func nvmlDeviceGetMinorNumber(Device Device, MinorNumber *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cMinorNumber, cMinorNumberAllocMap := (*C.uint)(unsafe.Pointer(MinorNumber)), cgoAllocsUnknown
@@ -72,7 +83,7 @@ func nvmlDeviceGetMinorNumber(Device Device, MinorNumber *uint32) Return {
 	return __v
 }
 
-// nvmlDeviceGetUUID function as declared in ixml/api.h:654
+// nvmlDeviceGetUUID function as declared in ixml/api.h:684
 func nvmlDeviceGetUUID(Device Device, Uuid *byte, Length uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cUuid, cUuidAllocMap := (*C.char)(unsafe.Pointer(Uuid)), cgoAllocsUnknown
@@ -85,7 +96,7 @@ func nvmlDeviceGetUUID(Device Device, Uuid *byte, Length uint32) Return {
 	return __v
 }
 
-// nvmlDeviceGetName function as declared in ixml/api.h:680
+// nvmlDeviceGetName function as declared in ixml/api.h:710
 func nvmlDeviceGetName(Device Device, Name *byte, Length uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cName, cNameAllocMap := (*C.char)(unsafe.Pointer(Name)), cgoAllocsUnknown
@@ -98,7 +109,7 @@ func nvmlDeviceGetName(Device Device, Name *byte, Length uint32) Return {
 	return __v
 }
 
-// nvmlSystemGetDriverVersion function as declared in ixml/api.h:699
+// nvmlSystemGetDriverVersion function as declared in ixml/api.h:729
 func nvmlSystemGetDriverVersion(Version *byte, Length uint32) Return {
 	cVersion, cVersionAllocMap := (*C.char)(unsafe.Pointer(Version)), cgoAllocsUnknown
 	cLength, cLengthAllocMap := (C.uint)(Length), cgoAllocsUnknown
@@ -109,7 +120,7 @@ func nvmlSystemGetDriverVersion(Version *byte, Length uint32) Return {
 	return __v
 }
 
-// nvmlSystemGetCudaDriverVersion function as declared in ixml/api.h:715
+// nvmlSystemGetCudaDriverVersion function as declared in ixml/api.h:745
 func nvmlSystemGetCudaDriverVersion(CudaDriverVersion *int32) Return {
 	cCudaDriverVersion, cCudaDriverVersionAllocMap := (*C.int)(unsafe.Pointer(CudaDriverVersion)), cgoAllocsUnknown
 	__ret := C.nvmlSystemGetCudaDriverVersion(cCudaDriverVersion)
@@ -118,7 +129,7 @@ func nvmlSystemGetCudaDriverVersion(CudaDriverVersion *int32) Return {
 	return __v
 }
 
-// nvmlSystemGetCudaDriverVersion_v2 function as declared in ixml/api.h:732
+// nvmlSystemGetCudaDriverVersion_v2 function as declared in ixml/api.h:762
 func nvmlSystemGetCudaDriverVersion_v2(CudaDriverVersion *int32) Return {
 	cCudaDriverVersion, cCudaDriverVersionAllocMap := (*C.int)(unsafe.Pointer(CudaDriverVersion)), cgoAllocsUnknown
 	__ret := C.nvmlSystemGetCudaDriverVersion_v2(cCudaDriverVersion)
@@ -127,7 +138,7 @@ func nvmlSystemGetCudaDriverVersion_v2(CudaDriverVersion *int32) Return {
 	return __v
 }
 
-// nvmlDeviceGetTemperature function as declared in ixml/api.h:753
+// nvmlDeviceGetTemperature function as declared in ixml/api.h:783
 func nvmlDeviceGetTemperature(Device Device, SensorType TemperatureSensors, Temp *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cSensorType, cSensorTypeAllocMap := (C.nvmlTemperatureSensors_t)(SensorType), cgoAllocsUnknown
@@ -140,7 +151,7 @@ func nvmlDeviceGetTemperature(Device Device, SensorType TemperatureSensors, Temp
 	return __v
 }
 
-// nvmlDeviceGetTemperatureThreshold function as declared in ixml/api.h:774
+// nvmlDeviceGetTemperatureThreshold function as declared in ixml/api.h:804
 func nvmlDeviceGetTemperatureThreshold(Device Device, ThresholdType TemperatureThresholds, Temp *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cThresholdType, cThresholdTypeAllocMap := (C.nvmlTemperatureThresholds_t)(ThresholdType), cgoAllocsUnknown
@@ -153,20 +164,7 @@ func nvmlDeviceGetTemperatureThreshold(Device Device, ThresholdType TemperatureT
 	return __v
 }
 
-// nvmlDeviceSetTemperatureThreshold function as declared in ixml/api.h:797
-func nvmlDeviceSetTemperatureThreshold(Device Device, ThresholdType TemperatureThresholds, Temp *int32) Return {
-	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
-	cThresholdType, cThresholdTypeAllocMap := (C.nvmlTemperatureThresholds_t)(ThresholdType), cgoAllocsUnknown
-	cTemp, cTempAllocMap := (*C.int)(unsafe.Pointer(Temp)), cgoAllocsUnknown
-	__ret := C.nvmlDeviceSetTemperatureThreshold(cDevice, cThresholdType, cTemp)
-	runtime.KeepAlive(cTempAllocMap)
-	runtime.KeepAlive(cThresholdTypeAllocMap)
-	runtime.KeepAlive(cDeviceAllocMap)
-	__v := (Return)(__ret)
-	return __v
-}
-
-// nvmlDeviceGetFanSpeed function as declared in ixml/api.h:823
+// nvmlDeviceGetFanSpeed function as declared in ixml/api.h:830
 func nvmlDeviceGetFanSpeed(Device Device, Speed *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cSpeed, cSpeedAllocMap := (*C.uint)(unsafe.Pointer(Speed)), cgoAllocsUnknown
@@ -177,7 +175,7 @@ func nvmlDeviceGetFanSpeed(Device Device, Speed *uint32) Return {
 	return __v
 }
 
-// nvmlDeviceGetClockInfo function as declared in ixml/api.h:844
+// nvmlDeviceGetClockInfo function as declared in ixml/api.h:851
 func nvmlDeviceGetClockInfo(Device Device, _type ClockType, Clock *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	c_type, c_typeAllocMap := (C.nvmlClockType_t)(_type), cgoAllocsUnknown
@@ -190,7 +188,7 @@ func nvmlDeviceGetClockInfo(Device Device, _type ClockType, Clock *uint32) Retur
 	return __v
 }
 
-// nvmlDeviceGetMemoryInfo function as declared in ixml/api.h:877
+// nvmlDeviceGetMemoryInfo function as declared in ixml/api.h:884
 func nvmlDeviceGetMemoryInfo(Device Device, Memory *Memory) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cMemory, cMemoryAllocMap := (*C.nvmlMemory_t)(unsafe.Pointer(Memory)), cgoAllocsUnknown
@@ -201,7 +199,7 @@ func nvmlDeviceGetMemoryInfo(Device Device, Memory *Memory) Return {
 	return __v
 }
 
-// nvmlDeviceGetMemoryInfo_v2 function as declared in ixml/api.h:878
+// nvmlDeviceGetMemoryInfo_v2 function as declared in ixml/api.h:885
 func nvmlDeviceGetMemoryInfo_v2(Device Device, Memory *Memory_v2) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cMemory, cMemoryAllocMap := (*C.nvmlMemory_v2_t)(unsafe.Pointer(Memory)), cgoAllocsUnknown
@@ -212,7 +210,7 @@ func nvmlDeviceGetMemoryInfo_v2(Device Device, Memory *Memory_v2) Return {
 	return __v
 }
 
-// nvmlDeviceGetFanSpeed_v2 function as declared in ixml/api.h:903
+// nvmlDeviceGetFanSpeed_v2 function as declared in ixml/api.h:910
 func nvmlDeviceGetFanSpeed_v2(Device Device, Fan uint32, Speed *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cFan, cFanAllocMap := (C.uint)(Fan), cgoAllocsUnknown
@@ -225,7 +223,7 @@ func nvmlDeviceGetFanSpeed_v2(Device Device, Fan uint32, Speed *uint32) Return {
 	return __v
 }
 
-// nvmlDeviceGetUtilizationRates function as declared in ixml/api.h:928
+// nvmlDeviceGetUtilizationRates function as declared in ixml/api.h:935
 func nvmlDeviceGetUtilizationRates(Device Device, Utilization *Utilization) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cUtilization, cUtilizationAllocMap := (*C.nvmlUtilization_t)(unsafe.Pointer(Utilization)), cgoAllocsUnknown
@@ -236,7 +234,7 @@ func nvmlDeviceGetUtilizationRates(Device Device, Utilization *Utilization) Retu
 	return __v
 }
 
-// nvmlDeviceGetPciInfo function as declared in ixml/api.h:947
+// nvmlDeviceGetPciInfo function as declared in ixml/api.h:954
 func nvmlDeviceGetPciInfo(Device Device, Pci *PciInfo) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cPci, cPciAllocMap := (*C.nvmlPciInfo_t)(unsafe.Pointer(Pci)), cgoAllocsUnknown
@@ -247,7 +245,7 @@ func nvmlDeviceGetPciInfo(Device Device, Pci *PciInfo) Return {
 	return __v
 }
 
-// nvmlDeviceGetIndex function as declared in ixml/api.h:981
+// nvmlDeviceGetIndex function as declared in ixml/api.h:988
 func nvmlDeviceGetIndex(Device Device, Index *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cIndex, cIndexAllocMap := (*C.uint)(unsafe.Pointer(Index)), cgoAllocsUnknown
@@ -258,7 +256,7 @@ func nvmlDeviceGetIndex(Device Device, Index *uint32) Return {
 	return __v
 }
 
-// nvmlDeviceGetPowerUsage function as declared in ixml/api.h:1003
+// nvmlDeviceGetPowerUsage function as declared in ixml/api.h:1010
 func nvmlDeviceGetPowerUsage(Device Device, Power *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cPower, cPowerAllocMap := (*C.uint)(unsafe.Pointer(Power)), cgoAllocsUnknown
@@ -269,7 +267,7 @@ func nvmlDeviceGetPowerUsage(Device Device, Power *uint32) Return {
 	return __v
 }
 
-// nvmlDeviceOnSameBoard function as declared in ixml/api.h:1023
+// nvmlDeviceOnSameBoard function as declared in ixml/api.h:1030
 func nvmlDeviceOnSameBoard(Device1 Device, Device2 Device, OnSameBoard *int32) Return {
 	cDevice1, cDevice1AllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device1)), cgoAllocsUnknown
 	cDevice2, cDevice2AllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device2)), cgoAllocsUnknown
@@ -282,7 +280,7 @@ func nvmlDeviceOnSameBoard(Device1 Device, Device2 Device, OnSameBoard *int32) R
 	return __v
 }
 
-// nvmlDeviceGetComputeRunningProcesses function as declared in ixml/api.h:1066
+// nvmlDeviceGetComputeRunningProcesses function as declared in ixml/api.h:1073
 func nvmlDeviceGetComputeRunningProcesses(Device Device, InfoCount *uint32, Infos *ProcessInfo_v1) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cInfoCount, cInfoCountAllocMap := (*C.uint)(unsafe.Pointer(InfoCount)), cgoAllocsUnknown
@@ -295,7 +293,7 @@ func nvmlDeviceGetComputeRunningProcesses(Device Device, InfoCount *uint32, Info
 	return __v
 }
 
-// nvmlDeviceGetPcieReplayCounter function as declared in ixml/api.h:1088
+// nvmlDeviceGetPcieReplayCounter function as declared in ixml/api.h:1095
 func nvmlDeviceGetPcieReplayCounter(Device Device, Value *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cValue, cValueAllocMap := (*C.uint)(unsafe.Pointer(Value)), cgoAllocsUnknown
@@ -306,7 +304,7 @@ func nvmlDeviceGetPcieReplayCounter(Device Device, Value *uint32) Return {
 	return __v
 }
 
-// nvmlGpmMetricsGet function as declared in ixml/api.h:1109
+// nvmlGpmMetricsGet function as declared in ixml/api.h:1116
 func nvmlGpmMetricsGet(MetricsGet *nvmlGpmMetricsGetType) Return {
 	cMetricsGet, cMetricsGetAllocMap := (*C.nvmlGpmMetricsGet_t)(unsafe.Pointer(MetricsGet)), cgoAllocsUnknown
 	__ret := C.nvmlGpmMetricsGet(cMetricsGet)
@@ -315,7 +313,7 @@ func nvmlGpmMetricsGet(MetricsGet *nvmlGpmMetricsGetType) Return {
 	return __v
 }
 
-// nvmlGpmQueryDeviceSupport function as declared in ixml/api.h:1122
+// nvmlGpmQueryDeviceSupport function as declared in ixml/api.h:1129
 func nvmlGpmQueryDeviceSupport(Device Device, GpmSupport *GpmSupport) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cGpmSupport, cGpmSupportAllocMap := (*C.nvmlGpmSupport_t)(unsafe.Pointer(GpmSupport)), cgoAllocsUnknown
@@ -326,7 +324,7 @@ func nvmlGpmQueryDeviceSupport(Device Device, GpmSupport *GpmSupport) Return {
 	return __v
 }
 
-// nvmlGpmSampleFree function as declared in ixml/api.h:1135
+// nvmlGpmSampleFree function as declared in ixml/api.h:1142
 func nvmlGpmSampleFree(GpmSample GpmSample) Return {
 	cGpmSample, cGpmSampleAllocMap := *(*C.nvmlGpmSample_t)(unsafe.Pointer(&GpmSample)), cgoAllocsUnknown
 	__ret := C.nvmlGpmSampleFree(cGpmSample)
@@ -335,7 +333,7 @@ func nvmlGpmSampleFree(GpmSample GpmSample) Return {
 	return __v
 }
 
-// nvmlGpmSampleAlloc function as declared in ixml/api.h:1150
+// nvmlGpmSampleAlloc function as declared in ixml/api.h:1157
 func nvmlGpmSampleAlloc(GpmSample *GpmSample) Return {
 	cGpmSample, cGpmSampleAllocMap := (*C.nvmlGpmSample_t)(unsafe.Pointer(GpmSample)), cgoAllocsUnknown
 	__ret := C.nvmlGpmSampleAlloc(cGpmSample)
@@ -344,7 +342,7 @@ func nvmlGpmSampleAlloc(GpmSample *GpmSample) Return {
 	return __v
 }
 
-// nvmlGpmSampleGet function as declared in ixml/api.h:1166
+// nvmlGpmSampleGet function as declared in ixml/api.h:1173
 func nvmlGpmSampleGet(Device Device, GpmSample GpmSample) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cGpmSample, cGpmSampleAllocMap := *(*C.nvmlGpmSample_t)(unsafe.Pointer(&GpmSample)), cgoAllocsUnknown
@@ -355,7 +353,7 @@ func nvmlGpmSampleGet(Device Device, GpmSample GpmSample) Return {
 	return __v
 }
 
-// nvmlDeviceGetPowerManagementLimit function as declared in ixml/api.h:1190
+// nvmlDeviceGetPowerManagementLimit function as declared in ixml/api.h:1197
 func nvmlDeviceGetPowerManagementLimit(Device Device, Limit *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cLimit, cLimitAllocMap := (*C.uint)(unsafe.Pointer(Limit)), cgoAllocsUnknown
@@ -366,7 +364,7 @@ func nvmlDeviceGetPowerManagementLimit(Device Device, Limit *uint32) Return {
 	return __v
 }
 
-// nvmlDeviceGetPowerManagementLimitConstraints function as declared in ixml/api.h:1213
+// nvmlDeviceGetPowerManagementLimitConstraints function as declared in ixml/api.h:1220
 func nvmlDeviceGetPowerManagementLimitConstraints(Device Device, MinLimit *uint32, MaxLimit *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cMinLimit, cMinLimitAllocMap := (*C.uint)(unsafe.Pointer(MinLimit)), cgoAllocsUnknown
@@ -379,7 +377,7 @@ func nvmlDeviceGetPowerManagementLimitConstraints(Device Device, MinLimit *uint3
 	return __v
 }
 
-// nvmlDeviceGetPowerManagementDefaultLimit function as declared in ixml/api.h:1235
+// nvmlDeviceGetPowerManagementDefaultLimit function as declared in ixml/api.h:1242
 func nvmlDeviceGetPowerManagementDefaultLimit(Device Device, DefaultLimit *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cDefaultLimit, cDefaultLimitAllocMap := (*C.uint)(unsafe.Pointer(DefaultLimit)), cgoAllocsUnknown
@@ -390,7 +388,7 @@ func nvmlDeviceGetPowerManagementDefaultLimit(Device Device, DefaultLimit *uint3
 	return __v
 }
 
-// nvmlDeviceGetCurrentClocksThrottleReasons function as declared in ixml/api.h:1259
+// nvmlDeviceGetCurrentClocksThrottleReasons function as declared in ixml/api.h:1266
 func nvmlDeviceGetCurrentClocksThrottleReasons(Device Device, ClocksThrottleReasons *uint64) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cClocksThrottleReasons, cClocksThrottleReasonsAllocMap := (*C.ulonglong)(unsafe.Pointer(ClocksThrottleReasons)), cgoAllocsUnknown
@@ -401,7 +399,7 @@ func nvmlDeviceGetCurrentClocksThrottleReasons(Device Device, ClocksThrottleReas
 	return __v
 }
 
-// nvmlDeviceGetSupportedClocksThrottleReasons function as declared in ixml/api.h:1285
+// nvmlDeviceGetSupportedClocksThrottleReasons function as declared in ixml/api.h:1292
 func nvmlDeviceGetSupportedClocksThrottleReasons(Device Device, SupportedClocksThrottleReasons *uint64) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cSupportedClocksThrottleReasons, cSupportedClocksThrottleReasonsAllocMap := (*C.ulonglong)(unsafe.Pointer(SupportedClocksThrottleReasons)), cgoAllocsUnknown
@@ -412,7 +410,7 @@ func nvmlDeviceGetSupportedClocksThrottleReasons(Device Device, SupportedClocksT
 	return __v
 }
 
-// nvmlDeviceGetTopologyCommonAncestor function as declared in ixml/api.h:1305
+// nvmlDeviceGetTopologyCommonAncestor function as declared in ixml/api.h:1312
 func nvmlDeviceGetTopologyCommonAncestor(Device1 Device, Device2 Device, PathInfo *GpuTopologyLevel) Return {
 	cDevice1, cDevice1AllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device1)), cgoAllocsUnknown
 	cDevice2, cDevice2AllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device2)), cgoAllocsUnknown
@@ -425,7 +423,7 @@ func nvmlDeviceGetTopologyCommonAncestor(Device1 Device, Device2 Device, PathInf
 	return __v
 }
 
-// ixmlDeviceGetBoardPosition function as declared in ixml/api.h:1307
+// ixmlDeviceGetBoardPosition function as declared in ixml/api.h:1314
 func ixmlDeviceGetBoardPosition(Device Device, Position *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cPosition, cPositionAllocMap := (*C.uint)(unsafe.Pointer(Position)), cgoAllocsUnknown
@@ -436,7 +434,7 @@ func ixmlDeviceGetBoardPosition(Device Device, Position *uint32) Return {
 	return __v
 }
 
-// ixmlDeviceGetGPUVoltage function as declared in ixml/api.h:1309
+// ixmlDeviceGetGPUVoltage function as declared in ixml/api.h:1316
 func ixmlDeviceGetGPUVoltage(Device Device, Integer *uint32, Decimal *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cInteger, cIntegerAllocMap := (*C.uint)(unsafe.Pointer(Integer)), cgoAllocsUnknown
@@ -449,7 +447,7 @@ func ixmlDeviceGetGPUVoltage(Device Device, Integer *uint32, Decimal *uint32) Re
 	return __v
 }
 
-// ixmlDeviceGetEccErros function as declared in ixml/api.h:1311
+// ixmlDeviceGetEccErros function as declared in ixml/api.h:1318
 func ixmlDeviceGetEccErros(Device Device, Single_error *uint32, Double_error *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cSingle_error, cSingle_errorAllocMap := (*C.uint)(unsafe.Pointer(Single_error)), cgoAllocsUnknown
@@ -462,7 +460,7 @@ func ixmlDeviceGetEccErros(Device Device, Single_error *uint32, Double_error *ui
 	return __v
 }
 
-// ixmlDeviceGetHealth function as declared in ixml/api.h:1313
+// ixmlDeviceGetHealth function as declared in ixml/api.h:1320
 func ixmlDeviceGetHealth(Device Device, Health *uint64) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cHealth, cHealthAllocMap := (*C.ulonglong)(unsafe.Pointer(Health)), cgoAllocsUnknown
