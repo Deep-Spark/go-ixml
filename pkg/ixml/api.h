@@ -607,6 +607,36 @@ extern "C"
     nvmlReturn_t DECLDIR nvmlDeviceGetHandleByUUID(const char *uuid, nvmlDevice_t *device);
 
     /**
+     * Acquire the handle for a particular device, based on its PCI bus id.
+     *
+     * For all products.
+     *
+     * This value corresponds to the nvmlPciInfo_t::busId returned by \ref nvmlDeviceGetPciInfo_v3().
+     *
+     * Starting from NVML 5, this API causes NVML to initialize the target GPU
+     * NVML may initialize additional GPUs if:
+     *  - The target GPU is an SLI slave
+     *
+     * \note NVML 4.304 and older version of nvmlDeviceGetHandleByPciBusId"_v1" returns NVML_ERROR_NOT_FOUND
+     *       instead of NVML_ERROR_NO_PERMISSION.
+     *
+     * @param pciBusId                             The PCI bus id of the target GPU
+     * @param device                               Reference in which to return the device handle
+     *
+     * @return
+     *         - \ref NVML_SUCCESS                  if \a device has been set
+     *         - \ref NVML_ERROR_UNINITIALIZED      if the library has not been successfully initialized
+     *         - \ref NVML_ERROR_INVALID_ARGUMENT   if \a pciBusId is invalid or \a device is NULL
+     *         - \ref NVML_ERROR_NOT_FOUND          if \a pciBusId does not match a valid device on the system
+     *         - \ref NVML_ERROR_INSUFFICIENT_POWER if the attached device has improperly attached external power cables
+     *         - \ref NVML_ERROR_NO_PERMISSION      if the user doesn't have permission to talk to this device
+     *         - \ref NVML_ERROR_IRQ_ISSUE          if NVIDIA kernel detected an interrupt issue with the attached GPUs
+     *         - \ref NVML_ERROR_GPU_IS_LOST        if the target GPU has fallen off the bus or is otherwise inaccessible
+     *         - \ref NVML_ERROR_UNKNOWN            on any unexpected error
+     */
+    nvmlReturn_t DECLDIR nvmlDeviceGetHandleByPciBusId_v2(const char *pciBusId, nvmlDevice_t *device);
+
+    /**
      * Retrieves minor number for the device. The minor number for the device is such that the Nvidia device node file for
      * each GPU will have the form /dev/nvidia[minor number].
      *
@@ -774,29 +804,6 @@ extern "C"
     nvmlReturn_t DECLDIR nvmlDeviceGetTemperatureThreshold(nvmlDevice_t device,
                                                            nvmlTemperatureThresholds_t thresholdType,
                                                            unsigned int *temp);
-
-    /**
-     * Sets the temperature threshold for the GPU with the specified threshold type in degrees C.
-     *
-     * For Maxwell &tm; or newer fully supported devices.
-     *
-     * See \ref nvmlTemperatureThresholds_t for details on available temperature thresholds.
-     *
-     * @param device                               The identifier of the target device
-     * @param thresholdType                        The type of threshold value to be set
-     * @param temp                                 Reference which hold the value to be set
-     * @return
-     *         - \ref NVML_SUCCESS                 if \a temp has been set
-     *         - \ref NVML_ERROR_UNINITIALIZED     if the library has not been successfully initialized
-     *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid, \a thresholdType is invalid or \a temp is
-     * NULL
-     *         - \ref NVML_ERROR_NOT_SUPPORTED     if the device does not have a temperature sensor or is unsupported
-     *         - \ref NVML_ERROR_GPU_IS_LOST       if the target GPU has fallen off the bus or is otherwise inaccessible
-     *         - \ref NVML_ERROR_UNKNOWN           on any unexpected error
-     */
-    nvmlReturn_t DECLDIR nvmlDeviceSetTemperatureThreshold(nvmlDevice_t device,
-                                                           nvmlTemperatureThresholds_t thresholdType,
-                                                           int *temp);
 
     /**
      * Retrieves the intended operating speed of the device's fan.
