@@ -24,29 +24,9 @@ import (
 	"gitee.com/deep-spark/go-ixml/pkg/ixml"
 )
 
+// Replace with your actual GPU UUID
 const defalutGpu = "GPU-6d2ec5fa-f293-57a3-9f2c-335f78120578"
-const gpu2 = "GPU-7edb0dc9-9291-5e13-9e1c-ad92672bdfec"
 
-func checkOnSameBoard(uuid1, uuid2 string) error {
-	device1, ret := ixml.GetHandleByUUID(uuid1)
-	if ret != ixml.SUCCESS {
-		return fmt.Errorf("failed to get handle by uuid, ret: %v", ret)
-	}
-	device2, ret := ixml.GetHandleByUUID(uuid2)
-	if ret != ixml.SUCCESS {
-		return fmt.Errorf("failed to get Handle by uuid, ret: %v", ret)
-	}
-
-	OnSameBoard, ret := ixml.GetOnSameBoard(device1, device2)
-	if ret == ixml.ERROR_NOT_SUPPORTED {
-		return fmt.Errorf("nvmlDeviceOnSameBoard: ERROR_NOT_SUPPORTED")
-	} else if ret != ixml.SUCCESS {
-		return fmt.Errorf("%s and %s are NOT on same board: %v", uuid1, uuid2, ret)
-	} else {
-		fmt.Printf("%s and %s on same board: %d\n", uuid1, uuid2, OnSameBoard)
-	}
-	return nil
-}
 func main() {
 	var device ixml.Device
 
@@ -71,38 +51,41 @@ func main() {
 	if ret != ixml.SUCCESS {
 		log.Fatalf("Unable to get name, ret: %v", ret)
 	}
-	fmt.Printf("name:%s, len(name): %d\n", name, len(name))
+	fmt.Printf("Device Name: %s\n", name)
 
 	index, ret := device.GetIndex()
 	if ret != ixml.SUCCESS {
 		log.Fatalf("Unable to get index, ret: %v", ret)
 	}
-	fmt.Printf("index: %d\n", index)
+	fmt.Printf("Device Index: %d\n", index)
 
-	Integer, Decimal, ret := device.GetGPUVoltage()
+	uuid, ret := device.GetUUID()
 	if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to get GPU Voltage, ret: %v", ret)
-	}
-	fmt.Printf("GPU Voltage: %v.%v\n", Integer, Decimal)
-
-	pos, ret := device.GetBoardPosition()
-	if ret == ixml.ERROR_NOT_SUPPORTED {
-		fmt.Printf("GetBoardPosition interface is not supported\n")
-	} else if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to get BoardPosition, ret: %v", ret)
+		fmt.Printf("Unable to get GPU Uuid , ret: %v\n", ret)
 	} else {
-		fmt.Printf("position: %d\n", pos)
+		fmt.Printf("Device Uuid: %s\n", uuid)
 	}
 
-	usage, ret := device.GetPowerUsage()
+	serialNumber, ret := device.GetSerial()
 	if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to get usage, ret: %v", ret)
+		fmt.Printf("Unable to get GPU Serial Number , ret: %v\n", ret)
+	} else {
+		fmt.Printf("Device Serial Number: %s\n", serialNumber)
 	}
-	fmt.Printf("usage: %d\n", usage)
 
-	if err := checkOnSameBoard(defalutGpu, gpu2); err != nil {
-		fmt.Println(err)
+	minorNumber, ret := device.GetMinorNumber()
+	if ret != ixml.SUCCESS {
+		fmt.Printf("Unable to get GPU MinorNumber, ret: %v\n", ret)
+	} else {
+		fmt.Printf("Device MinorNumber: %d\n", minorNumber)
 	}
+
+	currentEccMode, pendingEccMode, ret := device.GetEccMode()
+	if ret != ixml.SUCCESS {
+		log.Fatalf("Unable to get ECC Mode, ret: %v", ret)
+	}
+	fmt.Printf("Current ECC Mode: %d\n", currentEccMode)
+	fmt.Printf("Pending ECC Mode: %d\n", pendingEccMode)
 
 	fmt.Println("========================================")
 }

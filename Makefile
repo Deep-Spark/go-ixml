@@ -13,6 +13,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+MODULE := gitee.com/deep-spark/go-ixml
+
 GEN_DIR = $(PWD)/gen
 PKG_DIR = $(PWD)/pkg
 GEN_BINDINGS_DIR = $(GEN_DIR)/ixml
@@ -24,8 +26,6 @@ SOURCES = $(shell find $(GEN_BINDINGS_DIR) -type f)
 .PHONY: bindings test-bindings clean-bindings
 
 all: bindings
-test: test-bindings
-clean: clean-bindings
 
 bindings: $(SOURCES)
 	rm -rf $(PKG_BINDINGS_DIR)/{ixml,doc,const,cgo_helpers,types,types_gen}.go
@@ -38,11 +38,14 @@ bindings: $(SOURCES)
 	cd -> /dev/null
 	rm -rf $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj
 
-test-bindings: bindings
-	cd $(PKG_BINDINGS_DIR); \
-		go test -v .; \
-	cd -> /dev/null
+COVERAGE_FILE := coverage.out
+test: bindings
+	go test -v -coverprofile=$(COVERAGE_FILE) $(MODULE)/pkg/...
 
-clean-bindings:
+coverage: test
+	cat $(COVERAGE_FILE) | grep -v "_mock.go" > $(COVERAGE_FILE).no-mocks
+	go tool cover -func=$(COVERAGE_FILE).no-mocks
+
+clean:
 	rm -rf $(PKG_BINDINGS_DIR)/{ixml,doc,const,cgo_helpers,types,types_gen}.go
 	rm -rf $(PKG_BINDINGS_DIR)/types.go $(PKG_BINDINGS_DIR)/_obj

@@ -51,48 +51,40 @@ func main() {
 			fmt.Printf("Get device at index %d\n", i)
 		}
 
-		Uuid, ret := device.GetUUID()
+		integer, decimal, ret := device.GetGPUVoltage()
 		if ret != ixml.SUCCESS {
-			fmt.Printf("Unable to get GPU Uuid of device %d, ret: %v\n", i, ret)
-		} else {
-			fmt.Printf("Uuid of device %d: %s\n", i, Uuid)
+			log.Fatalf("Unable to get GPU Voltage, ret: %v", ret)
 		}
-
-		MinorNumber, ret := device.GetMinorNumber()
-		if ret != ixml.SUCCESS {
-			fmt.Printf("Unable to get GPU MinorNumber of device %d, ret: %v\n", i, ret)
-		} else {
-			fmt.Printf("MinorNumber of device %d: %d\n", i, MinorNumber)
-		}
+		fmt.Printf("GPU Voltage of device %d: %v.%v\n", i, integer, decimal)
 
 		temperature, ret := device.GetTemperature()
 		if ret != ixml.SUCCESS {
 			fmt.Printf("Unable to get GPU temperature of device %d, ret: %v\n", i, ret)
 		} else {
-			fmt.Printf("temperature of device %d: %d\n", i, temperature)
+			fmt.Printf("Temperature of device %d: %d\n", i, temperature)
 		}
 
-		FanSpeed, ret := device.GetFanSpeed()
+		fanSpeed, ret := device.GetFanSpeed()
 		if ret != ixml.SUCCESS {
 			fmt.Printf("Unable to get GPU FanSpeed of device %d, ret: %v\n", i, ret)
 		} else {
-			fmt.Printf("FanSpeed of device %d: %d\n", i, FanSpeed)
+			fmt.Printf("FanSpeed of device %d: %d\n", i, fanSpeed)
 		}
 
-		ClockInfo, ret := device.GetClockInfo()
+		clockInfo, ret := device.GetClockInfo()
 		if ret != ixml.SUCCESS {
 			fmt.Printf("Unable to get GPU MemClock of device %d, ret: %v\n", i, ret)
 		} else {
-			fmt.Printf("MemClock of device %d: %d\n", i, ClockInfo.Mem)
+			fmt.Printf("MemClock of device %d: %d\n", i, clockInfo.Mem)
 		}
 
-		MemoryInfo, ret := device.GetMemoryInfo()
+		memoryInfo, ret := device.GetMemoryInfo()
 		if ret != ixml.SUCCESS {
 			fmt.Printf("Unable to get MemoryInfo of device %d, ret: %v\n", i, ret)
 		} else {
-			fmt.Printf("MemoryInfo totalMem of device %d: %d (MiB)\n", i, MemoryInfo.Total)
-			fmt.Printf("MemoryInfo usedMem of device %d: %d (MiB)\n", i, MemoryInfo.Used)
-			fmt.Printf("MemoryInfo freeMem of device %d: %v (MiB)\n", i, MemoryInfo.Free)
+			fmt.Printf("MemoryInfo totalMem of device %d: %d (MiB)\n", i, memoryInfo.Total)
+			fmt.Printf("MemoryInfo usedMem of device %d: %d (MiB)\n", i, memoryInfo.Used)
+			fmt.Printf("MemoryInfo freeMem of device %d: %v (MiB)\n", i, memoryInfo.Free)
 		}
 
 		utilizationRates, ret := device.GetUtilizationRates()
@@ -103,11 +95,25 @@ func main() {
 			fmt.Printf("GPU utilizationRates of device %d: %d\n", i, utilizationRates.Gpu)
 		}
 
-		PciInfo, ret := device.GetPciInfo()
+		pciInfo, ret := device.GetPciInfo()
 		if ret != ixml.SUCCESS {
 			fmt.Printf("Unable to get PciInfo of device %d, ret: %v\n", i, ret)
 		} else {
-			fmt.Printf("PciInfo of device %d: %v\n", i, PciInfo.BusId)
+			fmt.Printf("PciInfo of device %d: %v\n", i, pciInfo.BusId)
+		}
+
+		pcieGeneration, ret := device.GetCurrPcieLinkGeneration()
+		if ret != ixml.SUCCESS {
+			fmt.Printf("Unable to get PcieGeneration of device %d, ret: %v\n", i, ret)
+		} else {
+			fmt.Printf("PcieGeneration of device %d: %d\n", i, pcieGeneration)
+		}
+
+		pcieWidth, ret := device.GetCurrPcieLinkWidth()
+		if ret != ixml.SUCCESS {
+			fmt.Printf("Unable to get PcieWidth of device %d, ret: %v\n", i, ret)
+		} else {
+			fmt.Printf("PcieWidth of device %d: %d\n", i, pcieWidth)
 		}
 
 		pcieReplyCnt, ret := device.GetPcieReplayCounter()
@@ -128,8 +134,14 @@ func main() {
 		if ret != ixml.SUCCESS {
 			fmt.Printf("Unable to get ecc errors %d, ret: %v\n", i, ret)
 		} else {
-			fmt.Printf("singleErr: %d, doubleErr: %d\n", singleErr, doubleErr)
+			fmt.Printf("SingleEccErr: %d, DoubleEccErr: %d\n", singleErr, doubleErr)
 		}
+
+		usage, ret := device.GetPowerUsage()
+		if ret != ixml.SUCCESS {
+			log.Fatalf("Unable to get Power Usage, ret: %v", ret)
+		}
+		fmt.Printf("Power Usage: %d\n", usage)
 
 		limit, ret := device.GetPowerManagementLimit()
 		if ret != ixml.SUCCESS {
@@ -149,7 +161,7 @@ func main() {
 		if ret != ixml.SUCCESS {
 			fmt.Printf("Unable to get PowerManagementLimitConstraints of device %d, ret: %v\n", i, ret)
 		} else {
-			fmt.Printf("minLimit: %d, maxLimit: %d\n", minLimit, maxLimit)
+			fmt.Printf("MinPowerMgmtLimit: %d, MaxPowerMgmtLimit: %d\n", minLimit, maxLimit)
 		}
 
 		threshType := ixml.TEMPERATURE_THRESHOLD_SLOWDOWN
