@@ -37,6 +37,8 @@ TRANSLATOR:
       - {action: replace, from: "^nvml"}
       - {action: replace, from: "_t$"}
       - {transform: export}
+      - {action: replace, from: "^EventSet$", to: "nvmlEventSet"}
+      - {action: replace, from: "^EventData$", to: "nvmlEventData"}
       - {action: replace, from: "^GpmMetricsGet", to: "nvmlGpmMetricsGetType"}
     function:
       - {action: accept, from: "^ixml"}
@@ -46,4 +48,5 @@ TRANSLATOR:
       - {action: replace, from: "^nvmlDeviceGetCount_v2", to: "nvmlDeviceGetCount"}
       - {action: replace, from: "^nvmlDeviceGetHandleByIndex_v2", to: "nvmlDeviceGetHandleByIndex"}
       - {action: replace, from: "^nvmlDeviceGetPciInfo_v3", to: "nvmlDeviceGetPciInfo"}
+      - {action: replace, from: "^nvmlEventSetWait_v2", to: "nvmlEventSetWait"}
       - {transform: unexport}

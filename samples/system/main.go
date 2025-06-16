@@ -20,6 +20,7 @@ package main
 import (
 	"fmt"
 	"log"
+	"strconv"
 
 	"gitee.com/deep-spark/go-ixml/pkg/ixml"
 )
@@ -41,14 +42,27 @@ func main() {
 	if ret != ixml.SUCCESS {
 		log.Fatalf("Unable to get driver version: %v", ret)
 	}
-	fmt.Printf("Driver Version: len(version)=%v, version=%v\n", len(version), version)
+	fmt.Printf("Driver Version: %v\n", version)
 
-	// Get the cuda driver version
+	// Get the cuda version
 	cudaVersion, ret := ixml.SystemGetCudaDriverVersion()
 	if ret != ixml.SUCCESS {
-		log.Fatalf("Unable to get cuda driver version: %v", ret)
+		log.Fatalf("Unable to get cuda version: %v", ret)
 	}
-	fmt.Printf("Cuda Driver Version: %v\n", cudaVersion)
+	cudaVersionInt, err := strconv.Atoi(cudaVersion)
+	if err != nil {
+		log.Fatalf("Failed to convert cuda version: %v", err)
+	}
+	major, minor := uint(cudaVersionInt)/1000, uint(cudaVersionInt)%1000/10
+	fmt.Printf("Cuda Version: %d.%d\n", major, minor)
+
+	// Get the IXML version
+	ixmlVersion, ret := ixml.SystemGetNVMLVersion()
+	if ret != ixml.SUCCESS {
+		log.Fatalf("Unable to get IXML version: %v", ret)
+	} else {
+		fmt.Printf("IXML Version: %v\n", ixmlVersion)
+	}
 
 	fmt.Println("========================================")
 }

@@ -97,12 +97,22 @@ To get gpm metrics of device, run the following command:
 go run samples/gpmmetrics/main.go
 ```
 
-To get running process information of device,run the following command:
+To get running process information of device, run the following command:
 ```bash
 go run samples/processinfo/main.go
 ```
 
-To get system information such as driver version and CUDA version, run the following command:
+To test the interface of event on device, run the following command:
+```bash
+go run samples/events/main.go
+```
+
+To test the board information of device, run the following command:
+```bash
+go run samples/board/main.go
+```
+
+To test system information such as driver version, CUDA version and IXML version, run the following command:
 ```bash
 go run samples/system/main.go
 ```
