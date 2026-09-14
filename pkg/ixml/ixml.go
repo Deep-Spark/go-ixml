@@ -16,711 +16,1269 @@ import (
 	"unsafe"
 )
 
-// nvmlInit function as declared in ixml/api.h:707
+// nvmlInit function as declared in ixml/api.h:739
 func nvmlInit() Return {
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlInit")
+	}
 	__ret := C.nvmlInit_v2()
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlInit", __v)
+	}
 	return __v
 }
 
-// nvmlShutdown function as declared in ixml/api.h:724
+// nvmlShutdown function as declared in ixml/api.h:756
 func nvmlShutdown() Return {
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlShutdown")
+	}
 	__ret := C.nvmlShutdown()
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlShutdown", __v)
+	}
 	return __v
 }
 
-// nvmlDeviceGetCount function as declared in ixml/api.h:746
+// nvmlDeviceGetCount function as declared in ixml/api.h:778
 func nvmlDeviceGetCount(DeviceCount *uint32) Return {
 	cDeviceCount, cDeviceCountAllocMap := (*C.uint)(unsafe.Pointer(DeviceCount)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetCount", "DeviceCount", DeviceCount)
+	}
 	__ret := C.nvmlDeviceGetCount_v2(cDeviceCount)
 	runtime.KeepAlive(cDeviceCountAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetCount", __v, "DeviceCount", DeviceCount)
+	}
 	return __v
 }
 
-// nvmlDeviceGetHandleByIndex function as declared in ixml/api.h:794
+// nvmlDeviceGetHandleByIndex function as declared in ixml/api.h:826
 func nvmlDeviceGetHandleByIndex(Index uint32, Device *Device) Return {
 	cIndex, cIndexAllocMap := (C.uint)(Index), cgoAllocsUnknown
 	cDevice, cDeviceAllocMap := (*C.nvmlDevice_t)(unsafe.Pointer(Device)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetHandleByIndex", "Index", Index, "Device", Device)
+	}
 	__ret := C.nvmlDeviceGetHandleByIndex_v2(cIndex, cDevice)
 	runtime.KeepAlive(cDeviceAllocMap)
 	runtime.KeepAlive(cIndexAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetHandleByIndex", __v, "Device", Device)
+	}
 	return __v
 }
 
-// nvmlDeviceGetHandleByUUID function as declared in ixml/api.h:819
+// nvmlDeviceGetHandleByUUID function as declared in ixml/api.h:851
 func nvmlDeviceGetHandleByUUID(Uuid string, Device *Device) Return {
 	cUuid, cUuidAllocMap := unpackPCharString(Uuid)
 	cDevice, cDeviceAllocMap := (*C.nvmlDevice_t)(unsafe.Pointer(Device)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetHandleByUUID", "Uuid", Uuid, "Device", Device)
+	}
 	__ret := C.nvmlDeviceGetHandleByUUID(cUuid, cDevice)
 	runtime.KeepAlive(cDeviceAllocMap)
 	runtime.KeepAlive(cUuidAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetHandleByUUID", __v, "Device", Device)
+	}
 	return __v
 }
 
-// nvmlDeviceGetHandleByPciBusId_v2 function as declared in ixml/api.h:849
+// nvmlDeviceGetHandleByPciBusId_v2 function as declared in ixml/api.h:881
 func nvmlDeviceGetHandleByPciBusId_v2(PciBusId string, Device *Device) Return {
 	cPciBusId, cPciBusIdAllocMap := unpackPCharString(PciBusId)
 	cDevice, cDeviceAllocMap := (*C.nvmlDevice_t)(unsafe.Pointer(Device)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetHandleByPciBusId_v2", "PciBusId", PciBusId, "Device", Device)
+	}
 	__ret := C.nvmlDeviceGetHandleByPciBusId_v2(cPciBusId, cDevice)
 	runtime.KeepAlive(cDeviceAllocMap)
 	runtime.KeepAlive(cPciBusIdAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetHandleByPciBusId_v2", __v, "Device", Device)
+	}
 	return __v
 }
 
-// nvmlDeviceGetMinorNumber function as declared in ixml/api.h:868
+// nvmlDeviceGetMinorNumber function as declared in ixml/api.h:900
 func nvmlDeviceGetMinorNumber(Device Device, MinorNumber *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cMinorNumber, cMinorNumberAllocMap := (*C.uint)(unsafe.Pointer(MinorNumber)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetMinorNumber", "Device", Device, "MinorNumber", MinorNumber)
+	}
 	__ret := C.nvmlDeviceGetMinorNumber(cDevice, cMinorNumber)
 	runtime.KeepAlive(cMinorNumberAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetMinorNumber", __v, "MinorNumber", MinorNumber)
+	}
 	return __v
 }
 
-// nvmlDeviceGetUUID function as declared in ixml/api.h:896
+// nvmlDeviceGetUUID function as declared in ixml/api.h:928
 func nvmlDeviceGetUUID(Device Device, Uuid *byte, Length uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cUuid, cUuidAllocMap := (*C.char)(unsafe.Pointer(Uuid)), cgoAllocsUnknown
 	cLength, cLengthAllocMap := (C.uint)(Length), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetUUID", "Device", Device, "Uuid", Uuid, "Length", Length)
+	}
 	__ret := C.nvmlDeviceGetUUID(cDevice, cUuid, cLength)
 	runtime.KeepAlive(cLengthAllocMap)
 	runtime.KeepAlive(cUuidAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetUUID", __v, "Uuid", Uuid)
+	}
 	return __v
 }
 
-// nvmlDeviceGetName function as declared in ixml/api.h:922
+// nvmlDeviceGetName function as declared in ixml/api.h:954
 func nvmlDeviceGetName(Device Device, Name *byte, Length uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cName, cNameAllocMap := (*C.char)(unsafe.Pointer(Name)), cgoAllocsUnknown
 	cLength, cLengthAllocMap := (C.uint)(Length), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetName", "Device", Device, "Name", Name, "Length", Length)
+	}
 	__ret := C.nvmlDeviceGetName(cDevice, cName, cLength)
 	runtime.KeepAlive(cLengthAllocMap)
 	runtime.KeepAlive(cNameAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetName", __v, "Name", Name)
+	}
 	return __v
 }
 
-// nvmlSystemGetDriverVersion function as declared in ixml/api.h:941
+// nvmlSystemGetDriverVersion function as declared in ixml/api.h:973
 func nvmlSystemGetDriverVersion(Version *byte, Length uint32) Return {
 	cVersion, cVersionAllocMap := (*C.char)(unsafe.Pointer(Version)), cgoAllocsUnknown
 	cLength, cLengthAllocMap := (C.uint)(Length), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlSystemGetDriverVersion", "Version", Version, "Length", Length)
+	}
 	__ret := C.nvmlSystemGetDriverVersion(cVersion, cLength)
 	runtime.KeepAlive(cLengthAllocMap)
 	runtime.KeepAlive(cVersionAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlSystemGetDriverVersion", __v, "Version", Version)
+	}
 	return __v
 }
 
-// nvmlSystemGetNVMLVersion function as declared in ixml/api.h:959
+// nvmlSystemGetNVMLVersion function as declared in ixml/api.h:991
 func nvmlSystemGetNVMLVersion(Version *byte, Length uint32) Return {
 	cVersion, cVersionAllocMap := (*C.char)(unsafe.Pointer(Version)), cgoAllocsUnknown
 	cLength, cLengthAllocMap := (C.uint)(Length), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlSystemGetNVMLVersion", "Version", Version, "Length", Length)
+	}
 	__ret := C.nvmlSystemGetNVMLVersion(cVersion, cLength)
 	runtime.KeepAlive(cLengthAllocMap)
 	runtime.KeepAlive(cVersionAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlSystemGetNVMLVersion", __v, "Version", Version)
+	}
 	return __v
 }
 
-// nvmlSystemGetCudaDriverVersion function as declared in ixml/api.h:975
+// nvmlSystemGetCudaDriverVersion function as declared in ixml/api.h:1007
 func nvmlSystemGetCudaDriverVersion(CudaDriverVersion *int32) Return {
 	cCudaDriverVersion, cCudaDriverVersionAllocMap := (*C.int)(unsafe.Pointer(CudaDriverVersion)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlSystemGetCudaDriverVersion", "CudaDriverVersion", CudaDriverVersion)
+	}
 	__ret := C.nvmlSystemGetCudaDriverVersion(cCudaDriverVersion)
 	runtime.KeepAlive(cCudaDriverVersionAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlSystemGetCudaDriverVersion", __v, "CudaDriverVersion", CudaDriverVersion)
+	}
 	return __v
 }
 
-// nvmlSystemGetCudaDriverVersion_v2 function as declared in ixml/api.h:992
+// nvmlSystemGetCudaDriverVersion_v2 function as declared in ixml/api.h:1024
 func nvmlSystemGetCudaDriverVersion_v2(CudaDriverVersion *int32) Return {
 	cCudaDriverVersion, cCudaDriverVersionAllocMap := (*C.int)(unsafe.Pointer(CudaDriverVersion)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlSystemGetCudaDriverVersion_v2", "CudaDriverVersion", CudaDriverVersion)
+	}
 	__ret := C.nvmlSystemGetCudaDriverVersion_v2(cCudaDriverVersion)
 	runtime.KeepAlive(cCudaDriverVersionAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlSystemGetCudaDriverVersion_v2", __v, "CudaDriverVersion", CudaDriverVersion)
+	}
 	return __v
 }
 
-// nvmlDeviceGetTemperature function as declared in ixml/api.h:1013
+// nvmlDeviceGetTemperature function as declared in ixml/api.h:1045
 func nvmlDeviceGetTemperature(Device Device, SensorType TemperatureSensors, Temp *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cSensorType, cSensorTypeAllocMap := (C.nvmlTemperatureSensors_t)(SensorType), cgoAllocsUnknown
 	cTemp, cTempAllocMap := (*C.uint)(unsafe.Pointer(Temp)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetTemperature", "Device", Device, "SensorType", SensorType, "Temp", Temp)
+	}
 	__ret := C.nvmlDeviceGetTemperature(cDevice, cSensorType, cTemp)
 	runtime.KeepAlive(cTempAllocMap)
 	runtime.KeepAlive(cSensorTypeAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetTemperature", __v, "Temp", Temp)
+	}
 	return __v
 }
 
-// nvmlDeviceGetTemperatureThreshold function as declared in ixml/api.h:1034
+// nvmlDeviceGetTemperatureThreshold function as declared in ixml/api.h:1066
 func nvmlDeviceGetTemperatureThreshold(Device Device, ThresholdType TemperatureThresholds, Temp *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cThresholdType, cThresholdTypeAllocMap := (C.nvmlTemperatureThresholds_t)(ThresholdType), cgoAllocsUnknown
 	cTemp, cTempAllocMap := (*C.uint)(unsafe.Pointer(Temp)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetTemperatureThreshold", "Device", Device, "ThresholdType", ThresholdType, "Temp", Temp)
+	}
 	__ret := C.nvmlDeviceGetTemperatureThreshold(cDevice, cThresholdType, cTemp)
 	runtime.KeepAlive(cTempAllocMap)
 	runtime.KeepAlive(cThresholdTypeAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetTemperatureThreshold", __v, "Temp", Temp)
+	}
 	return __v
 }
 
-// nvmlDeviceGetFanSpeed function as declared in ixml/api.h:1060
+// nvmlDeviceGetFanSpeed function as declared in ixml/api.h:1092
 func nvmlDeviceGetFanSpeed(Device Device, Speed *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cSpeed, cSpeedAllocMap := (*C.uint)(unsafe.Pointer(Speed)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetFanSpeed", "Device", Device, "Speed", Speed)
+	}
 	__ret := C.nvmlDeviceGetFanSpeed(cDevice, cSpeed)
 	runtime.KeepAlive(cSpeedAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetFanSpeed", __v, "Speed", Speed)
+	}
 	return __v
 }
 
-// nvmlDeviceGetClockInfo function as declared in ixml/api.h:1081
+// nvmlDeviceGetClockInfo function as declared in ixml/api.h:1113
 func nvmlDeviceGetClockInfo(Device Device, _type ClockType, Clock *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	c_type, c_typeAllocMap := (C.nvmlClockType_t)(_type), cgoAllocsUnknown
 	cClock, cClockAllocMap := (*C.uint)(unsafe.Pointer(Clock)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetClockInfo", "Device", Device, "_type", _type, "Clock", Clock)
+	}
 	__ret := C.nvmlDeviceGetClockInfo(cDevice, c_type, cClock)
 	runtime.KeepAlive(cClockAllocMap)
 	runtime.KeepAlive(c_typeAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetClockInfo", __v, "Clock", Clock)
+	}
 	return __v
 }
 
-// nvmlDeviceGetMemoryInfo function as declared in ixml/api.h:1114
+// nvmlDeviceGetMemoryInfo function as declared in ixml/api.h:1146
 func nvmlDeviceGetMemoryInfo(Device Device, Memory *Memory) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cMemory, cMemoryAllocMap := (*C.nvmlMemory_t)(unsafe.Pointer(Memory)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetMemoryInfo", "Device", Device, "Memory", Memory)
+	}
 	__ret := C.nvmlDeviceGetMemoryInfo(cDevice, cMemory)
 	runtime.KeepAlive(cMemoryAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetMemoryInfo", __v, "Memory", Memory)
+	}
 	return __v
 }
 
-// nvmlDeviceGetMemoryInfo_v2 function as declared in ixml/api.h:1115
+// nvmlDeviceGetMemoryInfo_v2 function as declared in ixml/api.h:1147
 func nvmlDeviceGetMemoryInfo_v2(Device Device, Memory *Memory_v2) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cMemory, cMemoryAllocMap := (*C.nvmlMemory_v2_t)(unsafe.Pointer(Memory)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetMemoryInfo_v2", "Device", Device, "Memory", Memory)
+	}
 	__ret := C.nvmlDeviceGetMemoryInfo_v2(cDevice, cMemory)
 	runtime.KeepAlive(cMemoryAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetMemoryInfo_v2", __v, "Memory", Memory)
+	}
 	return __v
 }
 
-// nvmlDeviceGetFanSpeed_v2 function as declared in ixml/api.h:1140
+// nvmlDeviceGetFanSpeed_v2 function as declared in ixml/api.h:1172
 func nvmlDeviceGetFanSpeed_v2(Device Device, Fan uint32, Speed *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cFan, cFanAllocMap := (C.uint)(Fan), cgoAllocsUnknown
 	cSpeed, cSpeedAllocMap := (*C.uint)(unsafe.Pointer(Speed)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetFanSpeed_v2", "Device", Device, "Fan", Fan, "Speed", Speed)
+	}
 	__ret := C.nvmlDeviceGetFanSpeed_v2(cDevice, cFan, cSpeed)
 	runtime.KeepAlive(cSpeedAllocMap)
 	runtime.KeepAlive(cFanAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetFanSpeed_v2", __v, "Speed", Speed)
+	}
 	return __v
 }
 
-// nvmlDeviceGetUtilizationRates function as declared in ixml/api.h:1165
+// nvmlDeviceGetUtilizationRates function as declared in ixml/api.h:1197
 func nvmlDeviceGetUtilizationRates(Device Device, Utilization *Utilization) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cUtilization, cUtilizationAllocMap := (*C.nvmlUtilization_t)(unsafe.Pointer(Utilization)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetUtilizationRates", "Device", Device, "Utilization", Utilization)
+	}
 	__ret := C.nvmlDeviceGetUtilizationRates(cDevice, cUtilization)
 	runtime.KeepAlive(cUtilizationAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetUtilizationRates", __v, "Utilization", Utilization)
+	}
 	return __v
 }
 
-// nvmlDeviceGetComputeMode function as declared in ixml/api.h:1187
+// nvmlDeviceGetComputeMode function as declared in ixml/api.h:1219
 func nvmlDeviceGetComputeMode(Device Device, Mode *ComputeMode) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cMode, cModeAllocMap := (*C.nvmlComputeMode_t)(unsafe.Pointer(Mode)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetComputeMode", "Device", Device, "Mode", Mode)
+	}
 	__ret := C.nvmlDeviceGetComputeMode(cDevice, cMode)
 	runtime.KeepAlive(cModeAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetComputeMode", __v, "Mode", Mode)
+	}
 	return __v
 }
 
-// nvmlDeviceGetCudaComputeCapability function as declared in ixml/api.h:1211
+// nvmlDeviceGetCudaComputeCapability function as declared in ixml/api.h:1243
 func nvmlDeviceGetCudaComputeCapability(Device Device, Major *int32, Minor *int32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cMajor, cMajorAllocMap := (*C.int)(unsafe.Pointer(Major)), cgoAllocsUnknown
 	cMinor, cMinorAllocMap := (*C.int)(unsafe.Pointer(Minor)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetCudaComputeCapability", "Device", Device, "Major", Major, "Minor", Minor)
+	}
 	__ret := C.nvmlDeviceGetCudaComputeCapability(cDevice, cMajor, cMinor)
 	runtime.KeepAlive(cMinorAllocMap)
 	runtime.KeepAlive(cMajorAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetCudaComputeCapability", __v, "Major", Major, "Minor", Minor)
+	}
 	return __v
 }
 
-// nvmlDeviceGetEccMode function as declared in ixml/api.h:1239
+// nvmlDeviceGetEccMode function as declared in ixml/api.h:1271
 func nvmlDeviceGetEccMode(Device Device, Current *EnableState, Pending *EnableState) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cCurrent, cCurrentAllocMap := (*C.nvmlEnableState_t)(unsafe.Pointer(Current)), cgoAllocsUnknown
 	cPending, cPendingAllocMap := (*C.nvmlEnableState_t)(unsafe.Pointer(Pending)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetEccMode", "Device", Device, "Current", Current, "Pending", Pending)
+	}
 	__ret := C.nvmlDeviceGetEccMode(cDevice, cCurrent, cPending)
 	runtime.KeepAlive(cPendingAllocMap)
 	runtime.KeepAlive(cCurrentAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetEccMode", __v, "Current", Current, "Pending", Pending)
+	}
 	return __v
 }
 
-// nvmlDeviceGetDefaultEccMode function as declared in ixml/api.h:1265
+// nvmlDeviceGetDefaultEccMode function as declared in ixml/api.h:1297
 func nvmlDeviceGetDefaultEccMode(Device Device, DefaultMode *EnableState) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cDefaultMode, cDefaultModeAllocMap := (*C.nvmlEnableState_t)(unsafe.Pointer(DefaultMode)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetDefaultEccMode", "Device", Device, "DefaultMode", DefaultMode)
+	}
 	__ret := C.nvmlDeviceGetDefaultEccMode(cDevice, cDefaultMode)
 	runtime.KeepAlive(cDefaultModeAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetDefaultEccMode", __v, "DefaultMode", DefaultMode)
+	}
 	return __v
 }
 
-// nvmlDeviceGetBoardId function as declared in ixml/api.h:1290
+// nvmlDeviceGetBoardId function as declared in ixml/api.h:1322
 func nvmlDeviceGetBoardId(Device Device, BoardId *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cBoardId, cBoardIdAllocMap := (*C.uint)(unsafe.Pointer(BoardId)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetBoardId", "Device", Device, "BoardId", BoardId)
+	}
 	__ret := C.nvmlDeviceGetBoardId(cDevice, cBoardId)
 	runtime.KeepAlive(cBoardIdAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetBoardId", __v, "BoardId", BoardId)
+	}
 	return __v
 }
 
-// nvmlDeviceGetMultiGpuBoard function as declared in ixml/api.h:1310
+// nvmlDeviceGetMultiGpuBoard function as declared in ixml/api.h:1342
 func nvmlDeviceGetMultiGpuBoard(Device Device, MultiGpuBool *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cMultiGpuBool, cMultiGpuBoolAllocMap := (*C.uint)(unsafe.Pointer(MultiGpuBool)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetMultiGpuBoard", "Device", Device, "MultiGpuBool", MultiGpuBool)
+	}
 	__ret := C.nvmlDeviceGetMultiGpuBoard(cDevice, cMultiGpuBool)
 	runtime.KeepAlive(cMultiGpuBoolAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetMultiGpuBoard", __v, "MultiGpuBool", MultiGpuBool)
+	}
 	return __v
 }
 
-// nvmlDeviceGetPciInfo function as declared in ixml/api.h:1329
+// nvmlDeviceGetPciInfo function as declared in ixml/api.h:1361
 func nvmlDeviceGetPciInfo(Device Device, Pci *PciInfo) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cPci, cPciAllocMap := (*C.nvmlPciInfo_t)(unsafe.Pointer(Pci)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetPciInfo", "Device", Device, "Pci", Pci)
+	}
 	__ret := C.nvmlDeviceGetPciInfo_v3(cDevice, cPci)
 	runtime.KeepAlive(cPciAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetPciInfo", __v, "Pci", Pci)
+	}
 	return __v
 }
 
-// nvmlDeviceGetMaxPcieLinkGeneration function as declared in ixml/api.h:1350
+// nvmlDeviceGetMaxPcieLinkGeneration function as declared in ixml/api.h:1382
 func nvmlDeviceGetMaxPcieLinkGeneration(Device Device, MaxLinkGen *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cMaxLinkGen, cMaxLinkGenAllocMap := (*C.uint)(unsafe.Pointer(MaxLinkGen)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetMaxPcieLinkGeneration", "Device", Device, "MaxLinkGen", MaxLinkGen)
+	}
 	__ret := C.nvmlDeviceGetMaxPcieLinkGeneration(cDevice, cMaxLinkGen)
 	runtime.KeepAlive(cMaxLinkGenAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetMaxPcieLinkGeneration", __v, "MaxLinkGen", MaxLinkGen)
+	}
 	return __v
 }
 
-// nvmlDeviceGetMaxPcieLinkWidth function as declared in ixml/api.h:1371
+// nvmlDeviceGetMaxPcieLinkWidth function as declared in ixml/api.h:1403
 func nvmlDeviceGetMaxPcieLinkWidth(Device Device, MaxLinkWidth *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cMaxLinkWidth, cMaxLinkWidthAllocMap := (*C.uint)(unsafe.Pointer(MaxLinkWidth)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetMaxPcieLinkWidth", "Device", Device, "MaxLinkWidth", MaxLinkWidth)
+	}
 	__ret := C.nvmlDeviceGetMaxPcieLinkWidth(cDevice, cMaxLinkWidth)
 	runtime.KeepAlive(cMaxLinkWidthAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetMaxPcieLinkWidth", __v, "MaxLinkWidth", MaxLinkWidth)
+	}
 	return __v
 }
 
-// nvmlDeviceGetCurrPcieLinkGeneration function as declared in ixml/api.h:1389
+// nvmlDeviceGetCurrPcieLinkGeneration function as declared in ixml/api.h:1421
 func nvmlDeviceGetCurrPcieLinkGeneration(Device Device, CurrLinkGen *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cCurrLinkGen, cCurrLinkGenAllocMap := (*C.uint)(unsafe.Pointer(CurrLinkGen)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetCurrPcieLinkGeneration", "Device", Device, "CurrLinkGen", CurrLinkGen)
+	}
 	__ret := C.nvmlDeviceGetCurrPcieLinkGeneration(cDevice, cCurrLinkGen)
 	runtime.KeepAlive(cCurrLinkGenAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetCurrPcieLinkGeneration", __v, "CurrLinkGen", CurrLinkGen)
+	}
 	return __v
 }
 
-// nvmlDeviceGetCurrPcieLinkWidth function as declared in ixml/api.h:1407
+// nvmlDeviceGetCurrPcieLinkWidth function as declared in ixml/api.h:1439
 func nvmlDeviceGetCurrPcieLinkWidth(Device Device, CurrLinkWidth *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cCurrLinkWidth, cCurrLinkWidthAllocMap := (*C.uint)(unsafe.Pointer(CurrLinkWidth)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetCurrPcieLinkWidth", "Device", Device, "CurrLinkWidth", CurrLinkWidth)
+	}
 	__ret := C.nvmlDeviceGetCurrPcieLinkWidth(cDevice, cCurrLinkWidth)
 	runtime.KeepAlive(cCurrLinkWidthAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetCurrPcieLinkWidth", __v, "CurrLinkWidth", CurrLinkWidth)
+	}
 	return __v
 }
 
-// nvmlDeviceGetPcieThroughput function as declared in ixml/api.h:1431
+// nvmlDeviceGetPcieThroughput function as declared in ixml/api.h:1463
 func nvmlDeviceGetPcieThroughput(Device Device, Counter PcieUtilCounter, Value *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cCounter, cCounterAllocMap := (C.nvmlPcieUtilCounter_t)(Counter), cgoAllocsUnknown
 	cValue, cValueAllocMap := (*C.uint)(unsafe.Pointer(Value)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetPcieThroughput", "Device", Device, "Counter", Counter, "Value", Value)
+	}
 	__ret := C.nvmlDeviceGetPcieThroughput(cDevice, cCounter, cValue)
 	runtime.KeepAlive(cValueAllocMap)
 	runtime.KeepAlive(cCounterAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetPcieThroughput", __v, "Value", Value)
+	}
 	return __v
 }
 
-// nvmlDeviceGetPcieReplayCounter function as declared in ixml/api.h:1455
+// nvmlDeviceGetPcieReplayCounter function as declared in ixml/api.h:1487
 func nvmlDeviceGetPcieReplayCounter(Device Device, Value *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cValue, cValueAllocMap := (*C.uint)(unsafe.Pointer(Value)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetPcieReplayCounter", "Device", Device, "Value", Value)
+	}
 	__ret := C.nvmlDeviceGetPcieReplayCounter(cDevice, cValue)
 	runtime.KeepAlive(cValueAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetPcieReplayCounter", __v, "Value", Value)
+	}
 	return __v
 }
 
-// nvmlDeviceGetIndex function as declared in ixml/api.h:1489
+// nvmlDeviceGetIndex function as declared in ixml/api.h:1521
 func nvmlDeviceGetIndex(Device Device, Index *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cIndex, cIndexAllocMap := (*C.uint)(unsafe.Pointer(Index)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetIndex", "Device", Device, "Index", Index)
+	}
 	__ret := C.nvmlDeviceGetIndex(cDevice, cIndex)
 	runtime.KeepAlive(cIndexAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetIndex", __v, "Index", Index)
+	}
 	return __v
 }
 
-// nvmlDeviceGetSerial function as declared in ixml/api.h:1513
+// nvmlDeviceGetSerial function as declared in ixml/api.h:1545
 func nvmlDeviceGetSerial(Device Device, Serial *byte, Length uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cSerial, cSerialAllocMap := (*C.char)(unsafe.Pointer(Serial)), cgoAllocsUnknown
 	cLength, cLengthAllocMap := (C.uint)(Length), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetSerial", "Device", Device, "Serial", Serial, "Length", Length)
+	}
 	__ret := C.nvmlDeviceGetSerial(cDevice, cSerial, cLength)
 	runtime.KeepAlive(cLengthAllocMap)
 	runtime.KeepAlive(cSerialAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetSerial", __v, "Serial", Serial)
+	}
 	return __v
 }
 
-// nvmlDeviceGetHandleBySerial function as declared in ixml/api.h:1548
+// nvmlDeviceGetHandleBySerial function as declared in ixml/api.h:1580
 func nvmlDeviceGetHandleBySerial(Serial string, Device *Device) Return {
 	cSerial, cSerialAllocMap := unpackPCharString(Serial)
 	cDevice, cDeviceAllocMap := (*C.nvmlDevice_t)(unsafe.Pointer(Device)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetHandleBySerial", "Serial", Serial, "Device", Device)
+	}
 	__ret := C.nvmlDeviceGetHandleBySerial(cSerial, cDevice)
 	runtime.KeepAlive(cDeviceAllocMap)
 	runtime.KeepAlive(cSerialAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetHandleBySerial", __v, "Device", Device)
+	}
 	return __v
 }
 
-// nvmlDeviceGetVbiosVersion function as declared in ixml/api.h:1570
+// nvmlDeviceGetVbiosVersion function as declared in ixml/api.h:1602
 func nvmlDeviceGetVbiosVersion(Device Device, Version *byte, Length uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cVersion, cVersionAllocMap := (*C.char)(unsafe.Pointer(Version)), cgoAllocsUnknown
 	cLength, cLengthAllocMap := (C.uint)(Length), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetVbiosVersion", "Device", Device, "Version", Version, "Length", Length)
+	}
 	__ret := C.nvmlDeviceGetVbiosVersion(cDevice, cVersion, cLength)
 	runtime.KeepAlive(cLengthAllocMap)
 	runtime.KeepAlive(cVersionAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetVbiosVersion", __v, "Version", Version)
+	}
 	return __v
 }
 
-// nvmlDeviceGetBoardPartNumber function as declared in ixml/api.h:1590
+// nvmlDeviceGetBoardPartNumber function as declared in ixml/api.h:1622
 func nvmlDeviceGetBoardPartNumber(Device Device, PartNumber *byte, Length uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cPartNumber, cPartNumberAllocMap := (*C.char)(unsafe.Pointer(PartNumber)), cgoAllocsUnknown
 	cLength, cLengthAllocMap := (C.uint)(Length), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetBoardPartNumber", "Device", Device, "PartNumber", PartNumber, "Length", Length)
+	}
 	__ret := C.nvmlDeviceGetBoardPartNumber(cDevice, cPartNumber, cLength)
 	runtime.KeepAlive(cLengthAllocMap)
 	runtime.KeepAlive(cPartNumberAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetBoardPartNumber", __v, "PartNumber", PartNumber)
+	}
 	return __v
 }
 
-// nvmlDeviceSetEccMode function as declared in ixml/api.h:1620
+// nvmlDeviceSetEccMode function as declared in ixml/api.h:1652
 func nvmlDeviceSetEccMode(Device Device, Ecc EnableState) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cEcc, cEccAllocMap := (C.nvmlEnableState_t)(Ecc), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceSetEccMode", "Device", Device, "Ecc", Ecc)
+	}
 	__ret := C.nvmlDeviceSetEccMode(cDevice, cEcc)
 	runtime.KeepAlive(cEccAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceSetEccMode", __v)
+	}
 	return __v
 }
 
-// nvmlDeviceGetPowerUsage function as declared in ixml/api.h:1696
+// nvmlDeviceGetPowerUsage function as declared in ixml/api.h:1728
 func nvmlDeviceGetPowerUsage(Device Device, Power *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cPower, cPowerAllocMap := (*C.uint)(unsafe.Pointer(Power)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetPowerUsage", "Device", Device, "Power", Power)
+	}
 	__ret := C.nvmlDeviceGetPowerUsage(cDevice, cPower)
 	runtime.KeepAlive(cPowerAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetPowerUsage", __v, "Power", Power)
+	}
 	return __v
 }
 
-// nvmlDeviceOnSameBoard function as declared in ixml/api.h:1716
+// nvmlDeviceOnSameBoard function as declared in ixml/api.h:1748
 func nvmlDeviceOnSameBoard(Device1 Device, Device2 Device, OnSameBoard *int32) Return {
 	cDevice1, cDevice1AllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device1)), cgoAllocsUnknown
 	cDevice2, cDevice2AllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device2)), cgoAllocsUnknown
 	cOnSameBoard, cOnSameBoardAllocMap := (*C.int)(unsafe.Pointer(OnSameBoard)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceOnSameBoard", "Device1", Device1, "Device2", Device2, "OnSameBoard", OnSameBoard)
+	}
 	__ret := C.nvmlDeviceOnSameBoard(cDevice1, cDevice2, cOnSameBoard)
 	runtime.KeepAlive(cOnSameBoardAllocMap)
 	runtime.KeepAlive(cDevice2AllocMap)
 	runtime.KeepAlive(cDevice1AllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceOnSameBoard", __v, "OnSameBoard", OnSameBoard)
+	}
 	return __v
 }
 
-// nvmlDeviceGetComputeRunningProcesses function as declared in ixml/api.h:1759
+// nvmlDeviceGetComputeRunningProcesses function as declared in ixml/api.h:1791
 func nvmlDeviceGetComputeRunningProcesses(Device Device, InfoCount *uint32, Infos *ProcessInfo_v1) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cInfoCount, cInfoCountAllocMap := (*C.uint)(unsafe.Pointer(InfoCount)), cgoAllocsUnknown
 	cInfos, cInfosAllocMap := (*C.nvmlProcessInfo_v1_t)(unsafe.Pointer(Infos)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetComputeRunningProcesses", "Device", Device, "InfoCount", InfoCount, "Infos", Infos)
+	}
 	__ret := C.nvmlDeviceGetComputeRunningProcesses(cDevice, cInfoCount, cInfos)
 	runtime.KeepAlive(cInfosAllocMap)
 	runtime.KeepAlive(cInfoCountAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetComputeRunningProcesses", __v, "InfoCount", InfoCount, "Infos", Infos)
+	}
 	return __v
 }
 
-// nvmlGpmMetricsGet function as declared in ixml/api.h:1780
+// nvmlGpmMetricsGet function as declared in ixml/api.h:1812
 func nvmlGpmMetricsGet(MetricsGet *nvmlGpmMetricsGetType) Return {
 	cMetricsGet, cMetricsGetAllocMap := (*C.nvmlGpmMetricsGet_t)(unsafe.Pointer(MetricsGet)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlGpmMetricsGet", "MetricsGet", MetricsGet)
+	}
 	__ret := C.nvmlGpmMetricsGet(cMetricsGet)
 	runtime.KeepAlive(cMetricsGetAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlGpmMetricsGet", __v, "MetricsGet", MetricsGet)
+	}
 	return __v
 }
 
-// nvmlGpmQueryDeviceSupport function as declared in ixml/api.h:1793
+// nvmlGpmQueryDeviceSupport function as declared in ixml/api.h:1825
 func nvmlGpmQueryDeviceSupport(Device Device, GpmSupport *GpmSupport) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cGpmSupport, cGpmSupportAllocMap := (*C.nvmlGpmSupport_t)(unsafe.Pointer(GpmSupport)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlGpmQueryDeviceSupport", "Device", Device, "GpmSupport", GpmSupport)
+	}
 	__ret := C.nvmlGpmQueryDeviceSupport(cDevice, cGpmSupport)
 	runtime.KeepAlive(cGpmSupportAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlGpmQueryDeviceSupport", __v, "GpmSupport", GpmSupport)
+	}
 	return __v
 }
 
-// nvmlGpmSampleFree function as declared in ixml/api.h:1806
+// nvmlGpmSampleFree function as declared in ixml/api.h:1838
 func nvmlGpmSampleFree(GpmSample GpmSample) Return {
 	cGpmSample, cGpmSampleAllocMap := *(*C.nvmlGpmSample_t)(unsafe.Pointer(&GpmSample)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlGpmSampleFree", "GpmSample", GpmSample)
+	}
 	__ret := C.nvmlGpmSampleFree(cGpmSample)
 	runtime.KeepAlive(cGpmSampleAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlGpmSampleFree", __v)
+	}
 	return __v
 }
 
-// nvmlGpmSampleAlloc function as declared in ixml/api.h:1821
+// nvmlGpmSampleAlloc function as declared in ixml/api.h:1853
 func nvmlGpmSampleAlloc(GpmSample *GpmSample) Return {
 	cGpmSample, cGpmSampleAllocMap := (*C.nvmlGpmSample_t)(unsafe.Pointer(GpmSample)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlGpmSampleAlloc", "GpmSample", GpmSample)
+	}
 	__ret := C.nvmlGpmSampleAlloc(cGpmSample)
 	runtime.KeepAlive(cGpmSampleAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlGpmSampleAlloc", __v, "GpmSample", GpmSample)
+	}
 	return __v
 }
 
-// nvmlGpmSampleGet function as declared in ixml/api.h:1837
+// nvmlGpmSampleGet function as declared in ixml/api.h:1869
 func nvmlGpmSampleGet(Device Device, GpmSample GpmSample) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cGpmSample, cGpmSampleAllocMap := *(*C.nvmlGpmSample_t)(unsafe.Pointer(&GpmSample)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlGpmSampleGet", "Device", Device, "GpmSample", GpmSample)
+	}
 	__ret := C.nvmlGpmSampleGet(cDevice, cGpmSample)
 	runtime.KeepAlive(cGpmSampleAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlGpmSampleGet", __v)
+	}
 	return __v
 }
 
-// nvmlDeviceGetPowerManagementLimit function as declared in ixml/api.h:1861
+// nvmlDeviceGetPowerManagementLimit function as declared in ixml/api.h:1893
 func nvmlDeviceGetPowerManagementLimit(Device Device, Limit *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cLimit, cLimitAllocMap := (*C.uint)(unsafe.Pointer(Limit)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetPowerManagementLimit", "Device", Device, "Limit", Limit)
+	}
 	__ret := C.nvmlDeviceGetPowerManagementLimit(cDevice, cLimit)
 	runtime.KeepAlive(cLimitAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetPowerManagementLimit", __v, "Limit", Limit)
+	}
 	return __v
 }
 
-// nvmlDeviceGetPowerManagementLimitConstraints function as declared in ixml/api.h:1884
+// nvmlDeviceGetPowerManagementLimitConstraints function as declared in ixml/api.h:1916
 func nvmlDeviceGetPowerManagementLimitConstraints(Device Device, MinLimit *uint32, MaxLimit *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cMinLimit, cMinLimitAllocMap := (*C.uint)(unsafe.Pointer(MinLimit)), cgoAllocsUnknown
 	cMaxLimit, cMaxLimitAllocMap := (*C.uint)(unsafe.Pointer(MaxLimit)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetPowerManagementLimitConstraints", "Device", Device, "MinLimit", MinLimit, "MaxLimit", MaxLimit)
+	}
 	__ret := C.nvmlDeviceGetPowerManagementLimitConstraints(cDevice, cMinLimit, cMaxLimit)
 	runtime.KeepAlive(cMaxLimitAllocMap)
 	runtime.KeepAlive(cMinLimitAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetPowerManagementLimitConstraints", __v, "MinLimit", MinLimit, "MaxLimit", MaxLimit)
+	}
 	return __v
 }
 
-// nvmlDeviceGetPowerManagementDefaultLimit function as declared in ixml/api.h:1906
+// nvmlDeviceGetPowerManagementDefaultLimit function as declared in ixml/api.h:1938
 func nvmlDeviceGetPowerManagementDefaultLimit(Device Device, DefaultLimit *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cDefaultLimit, cDefaultLimitAllocMap := (*C.uint)(unsafe.Pointer(DefaultLimit)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetPowerManagementDefaultLimit", "Device", Device, "DefaultLimit", DefaultLimit)
+	}
 	__ret := C.nvmlDeviceGetPowerManagementDefaultLimit(cDevice, cDefaultLimit)
 	runtime.KeepAlive(cDefaultLimitAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetPowerManagementDefaultLimit", __v, "DefaultLimit", DefaultLimit)
+	}
 	return __v
 }
 
-// nvmlDeviceGetCurrentClocksThrottleReasons function as declared in ixml/api.h:1930
+// nvmlDeviceGetCurrentClocksThrottleReasons function as declared in ixml/api.h:1962
 func nvmlDeviceGetCurrentClocksThrottleReasons(Device Device, ClocksThrottleReasons *uint64) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cClocksThrottleReasons, cClocksThrottleReasonsAllocMap := (*C.ulonglong)(unsafe.Pointer(ClocksThrottleReasons)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetCurrentClocksThrottleReasons", "Device", Device, "ClocksThrottleReasons", ClocksThrottleReasons)
+	}
 	__ret := C.nvmlDeviceGetCurrentClocksThrottleReasons(cDevice, cClocksThrottleReasons)
 	runtime.KeepAlive(cClocksThrottleReasonsAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetCurrentClocksThrottleReasons", __v, "ClocksThrottleReasons", ClocksThrottleReasons)
+	}
 	return __v
 }
 
-// nvmlDeviceGetSupportedClocksThrottleReasons function as declared in ixml/api.h:1956
+// nvmlDeviceGetSupportedClocksThrottleReasons function as declared in ixml/api.h:1988
 func nvmlDeviceGetSupportedClocksThrottleReasons(Device Device, SupportedClocksThrottleReasons *uint64) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cSupportedClocksThrottleReasons, cSupportedClocksThrottleReasonsAllocMap := (*C.ulonglong)(unsafe.Pointer(SupportedClocksThrottleReasons)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetSupportedClocksThrottleReasons", "Device", Device, "SupportedClocksThrottleReasons", SupportedClocksThrottleReasons)
+	}
 	__ret := C.nvmlDeviceGetSupportedClocksThrottleReasons(cDevice, cSupportedClocksThrottleReasons)
 	runtime.KeepAlive(cSupportedClocksThrottleReasonsAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetSupportedClocksThrottleReasons", __v, "SupportedClocksThrottleReasons", SupportedClocksThrottleReasons)
+	}
 	return __v
 }
 
-// nvmlDeviceGetTopologyCommonAncestor function as declared in ixml/api.h:1976
+// nvmlDeviceGetTopologyCommonAncestor function as declared in ixml/api.h:2008
 func nvmlDeviceGetTopologyCommonAncestor(Device1 Device, Device2 Device, PathInfo *GpuTopologyLevel) Return {
 	cDevice1, cDevice1AllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device1)), cgoAllocsUnknown
 	cDevice2, cDevice2AllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device2)), cgoAllocsUnknown
 	cPathInfo, cPathInfoAllocMap := (*C.nvmlGpuTopologyLevel_t)(unsafe.Pointer(PathInfo)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetTopologyCommonAncestor", "Device1", Device1, "Device2", Device2, "PathInfo", PathInfo)
+	}
 	__ret := C.nvmlDeviceGetTopologyCommonAncestor(cDevice1, cDevice2, cPathInfo)
 	runtime.KeepAlive(cPathInfoAllocMap)
 	runtime.KeepAlive(cDevice2AllocMap)
 	runtime.KeepAlive(cDevice1AllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetTopologyCommonAncestor", __v, "PathInfo", PathInfo)
+	}
 	return __v
 }
 
-// nvmlEventSetCreate function as declared in ixml/api.h:2091
+// nvmlDeviceGetP2PStatus function as declared in ixml/api.h:2026
+func nvmlDeviceGetP2PStatus(Device1 Device, Device2 Device, P2pIndex GpuP2PCapsIndex, P2pStatus *GpuP2PStatus) Return {
+	cDevice1, cDevice1AllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device1)), cgoAllocsUnknown
+	cDevice2, cDevice2AllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device2)), cgoAllocsUnknown
+	cP2pIndex, cP2pIndexAllocMap := (C.nvmlGpuP2PCapsIndex_t)(P2pIndex), cgoAllocsUnknown
+	cP2pStatus, cP2pStatusAllocMap := (*C.nvmlGpuP2PStatus_t)(unsafe.Pointer(P2pStatus)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetP2PStatus", "Device1", Device1, "Device2", Device2, "P2pIndex", P2pIndex, "P2pStatus", P2pStatus)
+	}
+	__ret := C.nvmlDeviceGetP2PStatus(cDevice1, cDevice2, cP2pIndex, cP2pStatus)
+	runtime.KeepAlive(cP2pStatusAllocMap)
+	runtime.KeepAlive(cP2pIndexAllocMap)
+	runtime.KeepAlive(cDevice2AllocMap)
+	runtime.KeepAlive(cDevice1AllocMap)
+	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetP2PStatus", __v, "P2pStatus", P2pStatus)
+	}
+	return __v
+}
+
+// nvmlDeviceGetNvLinkState function as declared in ixml/api.h:2043
+func nvmlDeviceGetNvLinkState(Device Device, Link uint32, IsActive *EnableState) Return {
+	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cLink, cLinkAllocMap := (C.uint)(Link), cgoAllocsUnknown
+	cIsActive, cIsActiveAllocMap := (*C.nvmlEnableState_t)(unsafe.Pointer(IsActive)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetNvLinkState", "Device", Device, "Link", Link, "IsActive", IsActive)
+	}
+	__ret := C.nvmlDeviceGetNvLinkState(cDevice, cLink, cIsActive)
+	runtime.KeepAlive(cIsActiveAllocMap)
+	runtime.KeepAlive(cLinkAllocMap)
+	runtime.KeepAlive(cDeviceAllocMap)
+	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetNvLinkState", __v, "IsActive", IsActive)
+	}
+	return __v
+}
+
+// nvmlEventSetCreate function as declared in ixml/api.h:2158
 func nvmlEventSetCreate(Set *nvmlEventSet) Return {
 	cSet, cSetAllocMap := (*C.nvmlEventSet_t)(unsafe.Pointer(Set)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlEventSetCreate", "Set", Set)
+	}
 	__ret := C.nvmlEventSetCreate(cSet)
 	runtime.KeepAlive(cSetAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlEventSetCreate", __v, "Set", Set)
+	}
 	return __v
 }
 
-// nvmlDeviceRegisterEvents function as declared in ixml/api.h:2131
+// nvmlDeviceRegisterEvents function as declared in ixml/api.h:2198
 func nvmlDeviceRegisterEvents(Device Device, EventTypes uint64, Set nvmlEventSet) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cEventTypes, cEventTypesAllocMap := (C.ulonglong)(EventTypes), cgoAllocsUnknown
 	cSet, cSetAllocMap := *(*C.nvmlEventSet_t)(unsafe.Pointer(&Set)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceRegisterEvents", "Device", Device, "EventTypes", EventTypes, "Set", Set)
+	}
 	__ret := C.nvmlDeviceRegisterEvents(cDevice, cEventTypes, cSet)
 	runtime.KeepAlive(cSetAllocMap)
 	runtime.KeepAlive(cEventTypesAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceRegisterEvents", __v)
+	}
 	return __v
 }
 
-// nvmlDeviceGetSupportedEventTypes function as declared in ixml/api.h:2155
+// nvmlDeviceGetSupportedEventTypes function as declared in ixml/api.h:2222
 func nvmlDeviceGetSupportedEventTypes(Device Device, EventTypes *uint64) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cEventTypes, cEventTypesAllocMap := (*C.ulonglong)(unsafe.Pointer(EventTypes)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlDeviceGetSupportedEventTypes", "Device", Device, "EventTypes", EventTypes)
+	}
 	__ret := C.nvmlDeviceGetSupportedEventTypes(cDevice, cEventTypes)
 	runtime.KeepAlive(cEventTypesAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlDeviceGetSupportedEventTypes", __v, "EventTypes", EventTypes)
+	}
 	return __v
 }
 
-// nvmlEventSetWait function as declared in ixml/api.h:2194
+// nvmlEventSetWait function as declared in ixml/api.h:2261
 func nvmlEventSetWait(Set nvmlEventSet, Data *nvmlEventData, Timeoutms uint32) Return {
 	cSet, cSetAllocMap := *(*C.nvmlEventSet_t)(unsafe.Pointer(&Set)), cgoAllocsUnknown
 	cData, cDataAllocMap := (*C.nvmlEventData_t)(unsafe.Pointer(Data)), cgoAllocsUnknown
 	cTimeoutms, cTimeoutmsAllocMap := (C.uint)(Timeoutms), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlEventSetWait", "Set", Set, "Data", Data, "Timeoutms", Timeoutms)
+	}
 	__ret := C.nvmlEventSetWait_v2(cSet, cData, cTimeoutms)
 	runtime.KeepAlive(cTimeoutmsAllocMap)
 	runtime.KeepAlive(cDataAllocMap)
 	runtime.KeepAlive(cSetAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlEventSetWait", __v, "Data", Data)
+	}
 	return __v
 }
 
-// nvmlEventSetFree function as declared in ixml/api.h:2210
+// nvmlEventSetFree function as declared in ixml/api.h:2277
 func nvmlEventSetFree(Set nvmlEventSet) Return {
 	cSet, cSetAllocMap := *(*C.nvmlEventSet_t)(unsafe.Pointer(&Set)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("nvmlEventSetFree", "Set", Set)
+	}
 	__ret := C.nvmlEventSetFree(cSet)
 	runtime.KeepAlive(cSetAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("nvmlEventSetFree", __v)
+	}
 	return __v
 }
 
-// ixmlDeviceGetBoardPosition function as declared in ixml/api.h:2214
+// ixmlDeviceGetBoardPosition function as declared in ixml/api.h:2281
 func ixmlDeviceGetBoardPosition(Device Device, Position *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cPosition, cPositionAllocMap := (*C.uint)(unsafe.Pointer(Position)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("ixmlDeviceGetBoardPosition", "Device", Device, "Position", Position)
+	}
 	__ret := C.ixmlDeviceGetBoardPosition(cDevice, cPosition)
 	runtime.KeepAlive(cPositionAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("ixmlDeviceGetBoardPosition", __v, "Position", Position)
+	}
 	return __v
 }
 
-// ixmlDeviceGetGPUVoltage function as declared in ixml/api.h:2216
+// ixmlDeviceGetBoardPowerUsage function as declared in ixml/api.h:2283
+func ixmlDeviceGetBoardPowerUsage(Device Device, Power *uint32) Return {
+	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cPower, cPowerAllocMap := (*C.uint)(unsafe.Pointer(Power)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("ixmlDeviceGetBoardPowerUsage", "Device", Device, "Power", Power)
+	}
+	__ret := C.ixmlDeviceGetBoardPowerUsage(cDevice, cPower)
+	runtime.KeepAlive(cPowerAllocMap)
+	runtime.KeepAlive(cDeviceAllocMap)
+	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("ixmlDeviceGetBoardPowerUsage", __v, "Power", Power)
+	}
+	return __v
+}
+
+// ixmlDeviceGetGPUVoltage function as declared in ixml/api.h:2285
 func ixmlDeviceGetGPUVoltage(Device Device, Integer *uint32, Decimal *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cInteger, cIntegerAllocMap := (*C.uint)(unsafe.Pointer(Integer)), cgoAllocsUnknown
 	cDecimal, cDecimalAllocMap := (*C.uint)(unsafe.Pointer(Decimal)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("ixmlDeviceGetGPUVoltage", "Device", Device, "Integer", Integer, "Decimal", Decimal)
+	}
 	__ret := C.ixmlDeviceGetGPUVoltage(cDevice, cInteger, cDecimal)
 	runtime.KeepAlive(cDecimalAllocMap)
 	runtime.KeepAlive(cIntegerAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("ixmlDeviceGetGPUVoltage", __v, "Integer", Integer, "Decimal", Decimal)
+	}
 	return __v
 }
 
-// ixmlDeviceGetEccErros function as declared in ixml/api.h:2218
+// ixmlDeviceGetEccErros function as declared in ixml/api.h:2287
 func ixmlDeviceGetEccErros(Device Device, Single_error *uint32, Double_error *uint32) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cSingle_error, cSingle_errorAllocMap := (*C.uint)(unsafe.Pointer(Single_error)), cgoAllocsUnknown
 	cDouble_error, cDouble_errorAllocMap := (*C.uint)(unsafe.Pointer(Double_error)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("ixmlDeviceGetEccErros", "Device", Device, "Single_error", Single_error, "Double_error", Double_error)
+	}
 	__ret := C.ixmlDeviceGetEccErros(cDevice, cSingle_error, cDouble_error)
 	runtime.KeepAlive(cDouble_errorAllocMap)
 	runtime.KeepAlive(cSingle_errorAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("ixmlDeviceGetEccErros", __v, "Single_error", Single_error, "Double_error", Double_error)
+	}
 	return __v
 }
 
-// ixmlDeviceGetHealth function as declared in ixml/api.h:2220
+// ixmlDeviceGetHealth function as declared in ixml/api.h:2289
 func ixmlDeviceGetHealth(Device Device, Health *uint64) Return {
 	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
 	cHealth, cHealthAllocMap := (*C.ulonglong)(unsafe.Pointer(Health)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("ixmlDeviceGetHealth", "Device", Device, "Health", Health)
+	}
 	__ret := C.ixmlDeviceGetHealth(cDevice, cHealth)
 	runtime.KeepAlive(cHealthAllocMap)
 	runtime.KeepAlive(cDeviceAllocMap)
 	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("ixmlDeviceGetHealth", __v, "Health", Health)
+	}
+	return __v
+}
+
+// ixmlDeviceGetIxLinkInfo function as declared in ixml/api.h:2291
+func ixmlDeviceGetIxLinkInfo(Device Device, Device2 Device, Link_count *uint32, Port *uint32, Remote_port *uint32) Return {
+	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cDevice2, cDevice2AllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device2)), cgoAllocsUnknown
+	cLink_count, cLink_countAllocMap := (*C.uint)(unsafe.Pointer(Link_count)), cgoAllocsUnknown
+	cPort, cPortAllocMap := (*C.uint)(unsafe.Pointer(Port)), cgoAllocsUnknown
+	cRemote_port, cRemote_portAllocMap := (*C.uint)(unsafe.Pointer(Remote_port)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("ixmlDeviceGetIxLinkInfo", "Device", Device, "Device2", Device2, "Link_count", Link_count, "Port", Port, "Remote_port", Remote_port)
+	}
+	__ret := C.ixmlDeviceGetIxLinkInfo(cDevice, cDevice2, cLink_count, cPort, cRemote_port)
+	runtime.KeepAlive(cRemote_portAllocMap)
+	runtime.KeepAlive(cPortAllocMap)
+	runtime.KeepAlive(cLink_countAllocMap)
+	runtime.KeepAlive(cDevice2AllocMap)
+	runtime.KeepAlive(cDeviceAllocMap)
+	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("ixmlDeviceGetIxLinkInfo", __v, "Link_count", Link_count, "Port", Port, "Remote_port", Remote_port)
+	}
+	return __v
+}
+
+// ixmlDeviceGetGpuBusyStatus function as declared in ixml/api.h:2295
+func ixmlDeviceGetGpuBusyStatus(Device Device, Busy_status *uint32) Return {
+	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cBusy_status, cBusy_statusAllocMap := (*C.uint)(unsafe.Pointer(Busy_status)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("ixmlDeviceGetGpuBusyStatus", "Device", Device, "Busy_status", Busy_status)
+	}
+	__ret := C.ixmlDeviceGetGpuBusyStatus(cDevice, cBusy_status)
+	runtime.KeepAlive(cBusy_statusAllocMap)
+	runtime.KeepAlive(cDeviceAllocMap)
+	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("ixmlDeviceGetGpuBusyStatus", __v, "Busy_status", Busy_status)
+	}
+	return __v
+}
+
+// ixmlDeviceFastClearDevice function as declared in ixml/api.h:2297
+func ixmlDeviceFastClearDevice(Device Device) Return {
+	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("ixmlDeviceFastClearDevice", "Device", Device)
+	}
+	__ret := C.ixmlDeviceFastClearDevice(cDevice)
+	runtime.KeepAlive(cDeviceAllocMap)
+	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("ixmlDeviceFastClearDevice", __v)
+	}
+	return __v
+}
+
+// ixmlDeviceReset function as declared in ixml/api.h:2299
+func ixmlDeviceReset(Device Device) Return {
+	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("ixmlDeviceReset", "Device", Device)
+	}
+	__ret := C.ixmlDeviceReset(cDevice)
+	runtime.KeepAlive(cDeviceAllocMap)
+	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("ixmlDeviceReset", __v)
+	}
+	return __v
+}
+
+// ixmlDeviceGetResetStatus function as declared in ixml/api.h:2301
+func ixmlDeviceGetResetStatus(Device Device, Status *uint32) Return {
+	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cStatus, cStatusAllocMap := (*C.uint)(unsafe.Pointer(Status)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("ixmlDeviceGetResetStatus", "Device", Device, "Status", Status)
+	}
+	__ret := C.ixmlDeviceGetResetStatus(cDevice, cStatus)
+	runtime.KeepAlive(cStatusAllocMap)
+	runtime.KeepAlive(cDeviceAllocMap)
+	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("ixmlDeviceGetResetStatus", __v, "Status", Status)
+	}
+	return __v
+}
+
+// ixmlDeviceSetResetStatus function as declared in ixml/api.h:2303
+func ixmlDeviceSetResetStatus(Device Device, Status uint32) Return {
+	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cStatus, cStatusAllocMap := (C.uint)(Status), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("ixmlDeviceSetResetStatus", "Device", Device, "Status", Status)
+	}
+	__ret := C.ixmlDeviceSetResetStatus(cDevice, cStatus)
+	runtime.KeepAlive(cStatusAllocMap)
+	runtime.KeepAlive(cDeviceAllocMap)
+	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("ixmlDeviceSetResetStatus", __v)
+	}
+	return __v
+}
+
+// ixmlDeviceGetComputeAllProcesses function as declared in ixml/api.h:2305
+func ixmlDeviceGetComputeAllProcesses(Device Device, InfoCount *uint32, Infos *ProcessInfo) Return {
+	cDevice, cDeviceAllocMap := *(*C.nvmlDevice_t)(unsafe.Pointer(&Device)), cgoAllocsUnknown
+	cInfoCount, cInfoCountAllocMap := (*C.uint)(unsafe.Pointer(InfoCount)), cgoAllocsUnknown
+	cInfos, cInfosAllocMap := (*C.nvmlProcessInfo_t)(unsafe.Pointer(Infos)), cgoAllocsUnknown
+	if IsDebugLogEnabled() {
+		debugLogCgoInput("ixmlDeviceGetComputeAllProcesses", "Device", Device, "InfoCount", InfoCount, "Infos", Infos)
+	}
+	__ret := C.ixmlDeviceGetComputeAllProcesses(cDevice, cInfoCount, cInfos)
+	runtime.KeepAlive(cInfosAllocMap)
+	runtime.KeepAlive(cInfoCountAllocMap)
+	runtime.KeepAlive(cDeviceAllocMap)
+	__v := (Return)(__ret)
+	if IsDebugLogEnabled() {
+		debugLogCgoOutput("ixmlDeviceGetComputeAllProcesses", __v, "InfoCount", InfoCount, "Infos", Infos)
+	}
 	return __v
 }

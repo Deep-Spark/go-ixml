@@ -13,65 +13,67 @@ package ixml
 import "C"
 
 const (
-	// GPM_METRICS_GET_VERSION as defined in ixml/api.h:441
+	// GPM_METRICS_GET_VERSION as defined in ixml/api.h:468
 	GPM_METRICS_GET_VERSION = 1
-	// MAX_PHYSICAL_BRIDGE as defined in ixml/api.h:455
+	// MAX_PHYSICAL_BRIDGE as defined in ixml/api.h:482
 	MAX_PHYSICAL_BRIDGE = 128
-	// GPM_SUPPORT_VERSION as defined in ixml/api.h:603
+	// GPM_SUPPORT_VERSION as defined in ixml/api.h:630
 	GPM_SUPPORT_VERSION = 1
-	// DEVICE_UUID_BUFFER_SIZE as defined in ixml/api.h:607
+	// DEVICE_UUID_BUFFER_SIZE as defined in ixml/api.h:634
 	DEVICE_UUID_BUFFER_SIZE = 80
-	// SYSTEM_DRIVER_VERSION_BUFFER_SIZE as defined in ixml/api.h:612
+	// SYSTEM_DRIVER_VERSION_BUFFER_SIZE as defined in ixml/api.h:639
 	SYSTEM_DRIVER_VERSION_BUFFER_SIZE = 80
-	// SYSTEM_NVML_VERSION_BUFFER_SIZE as defined in ixml/api.h:617
+	// SYSTEM_NVML_VERSION_BUFFER_SIZE as defined in ixml/api.h:644
 	SYSTEM_NVML_VERSION_BUFFER_SIZE = 80
-	// DEVICE_NAME_BUFFER_SIZE as defined in ixml/api.h:622
+	// DEVICE_NAME_BUFFER_SIZE as defined in ixml/api.h:649
 	DEVICE_NAME_BUFFER_SIZE = 64
-	// DEVICE_NAME_V2_BUFFER_SIZE as defined in ixml/api.h:627
+	// DEVICE_NAME_V2_BUFFER_SIZE as defined in ixml/api.h:654
 	DEVICE_NAME_V2_BUFFER_SIZE = 96
-	// DEVICE_PART_NUMBER_BUFFER_SIZE as defined in ixml/api.h:632
+	// DEVICE_PART_NUMBER_BUFFER_SIZE as defined in ixml/api.h:659
 	DEVICE_PART_NUMBER_BUFFER_SIZE = 80
-	// DEVICE_SERIAL_BUFFER_SIZE as defined in ixml/api.h:637
+	// DEVICE_SERIAL_BUFFER_SIZE as defined in ixml/api.h:664
 	DEVICE_SERIAL_BUFFER_SIZE = 30
-	// DEVICE_VBIOS_VERSION_BUFFER_SIZE as defined in ixml/api.h:642
+	// DEVICE_VBIOS_VERSION_BUFFER_SIZE as defined in ixml/api.h:669
 	DEVICE_VBIOS_VERSION_BUFFER_SIZE = 32
-	// DEVICE_PCI_BUS_ID_BUFFER_SIZE as defined in ixml/api.h:647
+	// DEVICE_PCI_BUS_ID_BUFFER_SIZE as defined in ixml/api.h:674
 	DEVICE_PCI_BUS_ID_BUFFER_SIZE = 32
-	// DEVICE_PCI_BUS_ID_BUFFER_V2_SIZE as defined in ixml/api.h:652
+	// DEVICE_PCI_BUS_ID_BUFFER_V2_SIZE as defined in ixml/api.h:679
 	DEVICE_PCI_BUS_ID_BUFFER_V2_SIZE = 16
-	// HealthSYSHUBError as defined in ixml/api.h:654
+	// NVLINK_MAX_LINKS as defined in ixml/api.h:684
+	NVLINK_MAX_LINKS = 6
+	// HealthSYSHUBError as defined in ixml/api.h:686
 	HealthSYSHUBError = int64(0x0000000000000001)
-	// HealthMCError as defined in ixml/api.h:655
+	// HealthMCError as defined in ixml/api.h:687
 	HealthMCError = int64(0x0000000000000002)
-	// HealthOverTempError as defined in ixml/api.h:656
+	// HealthOverTempError as defined in ixml/api.h:688
 	HealthOverTempError = int64(0x0000000000000004)
-	// HealthOverVoltageError as defined in ixml/api.h:657
+	// HealthOverVoltageError as defined in ixml/api.h:689
 	HealthOverVoltageError = int64(0x0000000000000008)
-	// HealthECCError as defined in ixml/api.h:658
+	// HealthECCError as defined in ixml/api.h:690
 	HealthECCError = int64(0x0000000000000010)
-	// HealthMemoryError as defined in ixml/api.h:659
+	// HealthMemoryError as defined in ixml/api.h:691
 	HealthMemoryError = int64(0x0000000000000020)
-	// HealthPCIEError as defined in ixml/api.h:660
+	// HealthPCIEError as defined in ixml/api.h:692
 	HealthPCIEError = int64(0x0000000000000040)
-	// HealthOK as defined in ixml/api.h:661
+	// HealthOK as defined in ixml/api.h:693
 	HealthOK = int64(0x0000000000000000)
-	// EventTypeSingleBitEccError as defined in ixml/api.h:2006
+	// EventTypeSingleBitEccError as defined in ixml/api.h:2073
 	EventTypeSingleBitEccError = int64(0x0000000000000001)
-	// EventTypeDoubleBitEccError as defined in ixml/api.h:2012
+	// EventTypeDoubleBitEccError as defined in ixml/api.h:2079
 	EventTypeDoubleBitEccError = int64(0x0000000000000002)
-	// EventTypePState as defined in ixml/api.h:2020
+	// EventTypePState as defined in ixml/api.h:2087
 	EventTypePState = int64(0x0000000000000004)
-	// EventTypeXidCriticalError as defined in ixml/api.h:2023
+	// EventTypeXidCriticalError as defined in ixml/api.h:2090
 	EventTypeXidCriticalError = int64(0x0000000000000008)
-	// EventTypeClock as defined in ixml/api.h:2029
+	// EventTypeClock as defined in ixml/api.h:2096
 	EventTypeClock = int64(0x0000000000000010)
-	// EventTypePowerSourceChange as defined in ixml/api.h:2032
+	// EventTypePowerSourceChange as defined in ixml/api.h:2099
 	EventTypePowerSourceChange = int64(0x0000000000000080)
-	// EventMigConfigChange as defined in ixml/api.h:2035
+	// EventMigConfigChange as defined in ixml/api.h:2102
 	EventMigConfigChange = int64(0x0000000000000100)
-	// EventTypeNone as defined in ixml/api.h:2038
+	// EventTypeNone as defined in ixml/api.h:2105
 	EventTypeNone = int64(0x0000000000000000)
-	// EventTypeAll as defined in ixml/api.h:2041
+	// EventTypeAll as defined in ixml/api.h:2108
 	EventTypeAll = (EventTypeNone | EventTypeSingleBitEccError | EventTypeDoubleBitEccError | EventTypePState | EventTypeClock | EventTypeXidCriticalError | EventTypePowerSourceChange | EventMigConfigChange)
 	// NO_UNVERSIONED_FUNC_DEFS as defined in go-ixml/<predefined>:348
 	NO_UNVERSIONED_FUNC_DEFS = 1
@@ -207,10 +209,37 @@ const (
 	TOPOLOGY_SYSTEM     GpuTopologyLevel = 50
 )
 
-// GpmMetricId as declared in ixml/api.h:395
+// GpuP2PStatus as declared in ixml/api.h:320
+type GpuP2PStatus int32
+
+// GpuP2PStatus enumeration from ixml/api.h:320
+const (
+	P2P_STATUS_OK                         GpuP2PStatus = iota
+	P2P_STATUS_CHIPSET_NOT_SUPPORED       GpuP2PStatus = 1
+	P2P_STATUS_GPU_NOT_SUPPORTED          GpuP2PStatus = 2
+	P2P_STATUS_IOH_TOPOLOGY_NOT_SUPPORTED GpuP2PStatus = 3
+	P2P_STATUS_DISABLED_BY_REGKEY         GpuP2PStatus = 4
+	P2P_STATUS_NOT_SUPPORTED              GpuP2PStatus = 5
+	P2P_STATUS_UNKNOWN                    GpuP2PStatus = 6
+)
+
+// GpuP2PCapsIndex as declared in ixml/api.h:333
+type GpuP2PCapsIndex int32
+
+// GpuP2PCapsIndex enumeration from ixml/api.h:333
+const (
+	P2P_CAPS_INDEX_READ    GpuP2PCapsIndex = iota
+	P2P_CAPS_INDEX_WRITE   GpuP2PCapsIndex = 1
+	P2P_CAPS_INDEX_NVLINK  GpuP2PCapsIndex = 2
+	P2P_CAPS_INDEX_ATOMICS GpuP2PCapsIndex = 3
+	P2P_CAPS_INDEX_PROP    GpuP2PCapsIndex = 4
+	P2P_CAPS_INDEX_UNKNOWN GpuP2PCapsIndex = 5
+)
+
+// GpmMetricId as declared in ixml/api.h:422
 type GpmMetricId int32
 
-// GpmMetricId enumeration from ixml/api.h:395
+// GpmMetricId enumeration from ixml/api.h:422
 const (
 	GPM_METRIC_GRAPHICS_UTIL           GpmMetricId = 1
 	GPM_METRIC_SM_UTIL                 GpmMetricId = 2
@@ -284,19 +313,19 @@ const (
 	GPM_METRIC_MAX                     GpmMetricId = 98
 )
 
-// BridgeChipType as declared in ixml/api.h:464
+// BridgeChipType as declared in ixml/api.h:491
 type BridgeChipType int32
 
-// BridgeChipType enumeration from ixml/api.h:464
+// BridgeChipType enumeration from ixml/api.h:491
 const (
 	BRIDGE_CHIP_PLX  BridgeChipType = iota
 	BRIDGE_CHIP_BRO4 BridgeChipType = 1
 )
 
-// SamplingType as declared in ixml/api.h:502
+// SamplingType as declared in ixml/api.h:529
 type SamplingType int32
 
-// SamplingType enumeration from ixml/api.h:502
+// SamplingType enumeration from ixml/api.h:529
 const (
 	TOTAL_POWER_SAMPLES        SamplingType = iota
 	GPU_UTILIZATION_SAMPLES    SamplingType = 1
@@ -308,20 +337,20 @@ const (
 	SAMPLINGTYPE_COUNT         SamplingType = 7
 )
 
-// PcieUtilCounter as declared in ixml/api.h:514
+// PcieUtilCounter as declared in ixml/api.h:541
 type PcieUtilCounter int32
 
-// PcieUtilCounter enumeration from ixml/api.h:514
+// PcieUtilCounter enumeration from ixml/api.h:541
 const (
 	PCIE_UTIL_TX_BYTES PcieUtilCounter = iota
 	PCIE_UTIL_RX_BYTES PcieUtilCounter = 1
 	PCIE_UTIL_COUNT    PcieUtilCounter = 2
 )
 
-// ValueType as declared in ixml/api.h:529
+// ValueType as declared in ixml/api.h:556
 type ValueType int32
 
-// ValueType enumeration from ixml/api.h:529
+// ValueType enumeration from ixml/api.h:556
 const (
 	VALUE_TYPE_DOUBLE             ValueType = iota
 	VALUE_TYPE_UNSIGNED_INT       ValueType = 1
@@ -331,10 +360,10 @@ const (
 	VALUE_TYPE_COUNT              ValueType = 5
 )
 
-// PerfPolicyType as declared in ixml/api.h:573
+// PerfPolicyType as declared in ixml/api.h:600
 type PerfPolicyType int32
 
-// PerfPolicyType enumeration from ixml/api.h:573
+// PerfPolicyType enumeration from ixml/api.h:600
 const (
 	PERF_POLICY_POWER             PerfPolicyType = iota
 	PERF_POLICY_THERMAL           PerfPolicyType = 1
@@ -347,10 +376,10 @@ const (
 	PERF_POLICY_COUNT             PerfPolicyType = 12
 )
 
-// ComputeMode as declared in ixml/api.h:592
+// ComputeMode as declared in ixml/api.h:619
 type ComputeMode int32
 
-// ComputeMode enumeration from ixml/api.h:592
+// ComputeMode enumeration from ixml/api.h:619
 const (
 	COMPUTEMODE_DEFAULT           ComputeMode = iota
 	COMPUTEMODE_EXCLUSIVE_THREAD  ComputeMode = 1

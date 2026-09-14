@@ -24,12 +24,7 @@ import (
 	"gitee.com/deep-spark/go-ixml/pkg/ixml"
 )
 
-// Replace with your actual GPU UUID
-const defalutGpu = "GPU-6d2ec5fa-f293-57a3-9f2c-335f78120578"
-
 func main() {
-	var device ixml.Device
-
 	ret := ixml.Init()
 	if ret != ixml.SUCCESS {
 		log.Fatalf("Unable to initialize IXML, ret: %v", ret)
@@ -41,8 +36,27 @@ func main() {
 		}
 	}()
 
-	fmt.Printf("Start to get attributes of device: %s\n", defalutGpu)
-	device, ret = ixml.GetHandleByUUID(defalutGpu)
+	count, ret := ixml.DeviceGetCount()
+	if ret != ixml.SUCCESS {
+		log.Fatalf("Unable to get device count, ret: %v", ret)
+	}
+	fmt.Printf("Device count: %d\n", count)
+	if count <= 0 {
+		log.Fatalf("No GPU found")
+	}
+
+	var device ixml.Device
+	if ret := ixml.DeviceGetHandleByIndex(0, &device); ret != ixml.SUCCESS {
+		log.Fatalf("Unable to get device handle by index, ret: %v", ret)
+	}
+	uuid, ret := ixml.DeviceGetUUID(device)
+	if ret != ixml.SUCCESS {
+		log.Fatalf("Unable to get device uuid, ret: %v", ret)
+	}
+	fmt.Printf("Device UUID: %s\n", uuid)
+
+	fmt.Printf("Start to get attributes of device: %s\n", uuid)
+	device, ret = ixml.GetHandleByUUID(uuid)
 	if ret != ixml.SUCCESS {
 		log.Fatalf("Unable to get Handle by uuid, ret: %v", ret)
 	}
@@ -58,13 +72,6 @@ func main() {
 		log.Fatalf("Unable to get index, ret: %v", ret)
 	}
 	fmt.Printf("Device Index: %d\n", index)
-
-	uuid, ret := device.GetUUID()
-	if ret != ixml.SUCCESS {
-		fmt.Printf("Unable to get GPU Uuid , ret: %v\n", ret)
-	} else {
-		fmt.Printf("Device Uuid: %s\n", uuid)
-	}
 
 	serialNumber, ret := device.GetSerial()
 	if ret != ixml.SUCCESS {

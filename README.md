@@ -82,6 +82,31 @@ func main() {
 
 The `samples` folder contains more simple examples of how to use GO-IXML to call the ixml API.
 
+To run all samples sequentially:
+```bash
+make samples
+# or: cd samples && make run
+```
+
+To list discovered samples:
+```bash
+cd samples && make list
+```
+
+### Debug logging
+
+Set `GO_IXML_LOG_LEVEL=debug` to print CGO call inputs/outputs while running samples (or any program that uses GO-IXML):
+
+```bash
+GO_IXML_LOG_LEVEL="debug" make samples
+```
+
+You can also enable it for a single sample:
+
+```bash
+GO_IXML_LOG_LEVEL=debug go run samples/attributes/main.go
+```
+
 To get device attributes, run the following command:
 ```bash
 go run samples/attributes/main.go
@@ -112,9 +137,38 @@ To test the board information of device, run the following command:
 go run samples/board/main.go
 ```
 
+To count physical GPU counts, run the following command:
+```bash
+go run samples/gpucount/main.go
+```
+
+To get total GPU power, run the following command:
+```bash
+go run samples/totalpower/main.go
+```
+
 To test system information such as driver version, CUDA version and IXML version, run the following command:
 ```bash
 go run samples/system/main.go
+```
+
+To check P2P capability and IxLink info between GPUs, run the following command:
+```bash
+go run samples/p2p/main.go
+# optional: -device1=0 -device2=1  or  -all-pairs
+```
+
+To get topology common ancestor between GPUs, run the following command:
+```bash
+go run samples/topology/main.go
+# optional: -device1=0 -device2=1  or  -all-pairs
+```
+
+To test extended IXML APIs (GPU busy status, compute processes, optional fast-clear/reset), run the following command:
+```bash
+go run samples/ixml_ext/main.go
+# optional: -lib=/path/to/libixml.so -device=0  or  -all
+# optional destructive: -fast-clear  and/or  -reset
 ```
 
 ## License

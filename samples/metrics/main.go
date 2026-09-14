@@ -143,6 +143,13 @@ func main() {
 		}
 		fmt.Printf("Power Usage: %d\n", usage)
 
+		boardUsage, ret := device.GetBoardPowerUsage()
+		if ret != ixml.SUCCESS {
+			fmt.Printf("Unable to get BoardPowerUsage of device %d, ret: %v\n", i, ret)
+		} else {
+			fmt.Printf("Board Power Usage: %d\n", boardUsage)
+		}
+
 		limit, ret := device.GetPowerManagementLimit()
 		if ret != ixml.SUCCESS {
 			fmt.Printf("Unable to get PowerManagementLimit of device %d, ret: %v\n", i, ret)

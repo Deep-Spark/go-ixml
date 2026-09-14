@@ -306,6 +306,33 @@ extern "C"
     } nvmlGpuTopologyLevel_t;
 
     /**
+     * P2P Capability Index Status
+     */
+    typedef enum nvmlGpuP2PStatus_enum
+    {
+        NVML_P2P_STATUS_OK = 0,
+        NVML_P2P_STATUS_CHIPSET_NOT_SUPPORED,
+        NVML_P2P_STATUS_GPU_NOT_SUPPORTED,
+        NVML_P2P_STATUS_IOH_TOPOLOGY_NOT_SUPPORTED,
+        NVML_P2P_STATUS_DISABLED_BY_REGKEY,
+        NVML_P2P_STATUS_NOT_SUPPORTED,
+        NVML_P2P_STATUS_UNKNOWN
+    } nvmlGpuP2PStatus_t;
+
+    /**
+     * P2P Capability Index
+     */
+    typedef enum nvmlGpuP2PCapsIndex_enum
+    {
+        NVML_P2P_CAPS_INDEX_READ = 0,
+        NVML_P2P_CAPS_INDEX_WRITE,
+        NVML_P2P_CAPS_INDEX_NVLINK,
+        NVML_P2P_CAPS_INDEX_ATOMICS,
+        NVML_P2P_CAPS_INDEX_PROP,
+        NVML_P2P_CAPS_INDEX_UNKNOWN
+    } nvmlGpuP2PCapsIndex_t;
+
+    /**
      * Information about running compute processes on the GPU, legacy version
      * for older versions of the API.
      */
@@ -650,6 +677,11 @@ extern "C"
  * Buffer size guaranteed to be large enough for pci bus id for ::busIdLegacy
  */
 #define NVML_DEVICE_PCI_BUS_ID_BUFFER_V2_SIZE 16
+
+/**
+ * Maximum number of NVLinks supported.
+ */
+#define NVML_NVLINK_MAX_LINKS 6
 
 #define ixmlHealthSYSHUBError 0x0000000000000001LL
 #define ixmlHealthMCError 0x0000000000000002LL
@@ -1975,6 +2007,41 @@ extern "C"
     /** @} */
     nvmlReturn_t DECLDIR nvmlDeviceGetTopologyCommonAncestor(nvmlDevice_t device1, nvmlDevice_t device2, nvmlGpuTopologyLevel_t *pathInfo);
 
+    /**
+     * Retrieves the P2P status between two devices
+     *
+     * For all fully supported products.
+     *
+     * @param device1                              The identifier of the first device
+     * @param device2                              The identifier of the second device
+     * @param p2pIndex                             The index of the P2P capability to query
+     * @param p2pStatus                            Reference in which to return the P2P status
+     *
+     * @return
+     *         - \ref NVML_SUCCESS                 if \a p2pStatus has been set
+     *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device1, or \a device2 is invalid, or \a p2pIndex is invalid or \a p2pStatus is NULL
+     *         - \ref NVML_ERROR_NOT_SUPPORTED     if the device or OS does not support this feature
+     *         - \ref NVML_ERROR_UNKNOWN           an error has occurred in underlying topology discovery
+     */
+    nvmlReturn_t DECLDIR nvmlDeviceGetP2PStatus(nvmlDevice_t device1, nvmlDevice_t device2, nvmlGpuP2PCapsIndex_t p2pIndex, nvmlGpuP2PStatus_t *p2pStatus);
+    
+    /**
+     * Retrieves the state of an NVLink between two devices
+     *
+     * For all fully supported products.
+     *
+     * @param device                               The identifier of the target device
+     * @param link                                 The index of the NVLink to query
+     * @param isActive                             Reference in which to return the state of the NVLink
+     *
+     * @return
+     *         - \ref NVML_SUCCESS                 if \a isActive has been set
+     *         - \ref NVML_ERROR_INVALID_ARGUMENT  if \a device is invalid or \a link is invalid or \a isActive is NULL
+     *         - \ref NVML_ERROR_NOT_SUPPORTED     if the device or OS does not support this feature
+     *         - \ref NVML_ERROR_UNKNOWN           an error has occurred in underlying topology discovery
+     */
+    nvmlReturn_t DECLDIR nvmlDeviceGetNvLinkState(nvmlDevice_t device, unsigned int link, nvmlEnableState_t *isActive);
+
     /***************************************************************************************************/
     /** @addtogroup nvmlEvents
      *  @{
@@ -2213,11 +2280,29 @@ extern "C"
 
     nvmlReturn_t DECLDIR ixmlDeviceGetBoardPosition(nvmlDevice_t device, unsigned int *position);
 
+    nvmlReturn_t DECLDIR ixmlDeviceGetBoardPowerUsage(nvmlDevice_t device, unsigned int *power);
+
     nvmlReturn_t DECLDIR ixmlDeviceGetGPUVoltage(nvmlDevice_t device, unsigned int *integer, unsigned int *decimal);
 
     nvmlReturn_t DECLDIR ixmlDeviceGetEccErros(nvmlDevice_t device, unsigned int *single_error, unsigned int *double_error);
 
     nvmlReturn_t DECLDIR ixmlDeviceGetHealth(nvmlDevice_t device, unsigned long long *health);
+
+    nvmlReturn_t DECLDIR ixmlDeviceGetIxLinkInfo(nvmlDevice_t device, nvmlDevice_t device2,
+                                                unsigned int *link_count, unsigned int *port,
+                                                unsigned int *remote_port);
+
+    nvmlReturn_t DECLDIR ixmlDeviceGetGpuBusyStatus(nvmlDevice_t device, unsigned int *busy_status);
+
+    nvmlReturn_t DECLDIR ixmlDeviceFastClearDevice(nvmlDevice_t device);
+
+    nvmlReturn_t DECLDIR ixmlDeviceReset(nvmlDevice_t device);
+
+    nvmlReturn_t DECLDIR ixmlDeviceGetResetStatus(nvmlDevice_t device, unsigned int *status);
+
+    nvmlReturn_t DECLDIR ixmlDeviceSetResetStatus(nvmlDevice_t device, unsigned int status);
+
+    nvmlReturn_t DECLDIR ixmlDeviceGetComputeAllProcesses(nvmlDevice_t device, unsigned int *infoCount, nvmlProcessInfo_t *infos);
 
 #ifdef __cplusplus
 }

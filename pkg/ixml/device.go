@@ -129,7 +129,7 @@ func (device Device) GetClockInfo() (ClockInfo, Return) {
 
 func deviceGetClockInfo(Device Device) (ClockInfo, Return) {
 	var sm, mem uint32
-	_ = nvmlDeviceGetClockInfo(Device, CLOCK_SM, &sm)
+	nvmlDeviceGetClockInfo(Device, CLOCK_SM, &sm)
 	ret := nvmlDeviceGetClockInfo(Device, CLOCK_MEM, &mem)
 	return ClockInfo{
 		Sm:  sm,
@@ -260,6 +260,17 @@ func (device Device) GetPowerUsage() (uint32, Return) {
 	return Power, ret
 }
 
+// ixml.DeviceGetBoardPowerUsage()
+func DeviceGetBoardPowerUsage(device Device) (uint32, Return) {
+	return device.GetBoardPowerUsage()
+}
+
+func (device Device) GetBoardPowerUsage() (uint32, Return) {
+	var power uint32
+	ret := ixmlDeviceGetBoardPowerUsage(device, &power)
+	return power, ret
+}
+
 // ixml.DeviceGetOnSameBoard()
 func GetOnSameBoard(device1, device2 Device) (int, Return) {
 	var OnSameBoard int32
@@ -289,6 +300,28 @@ func (device Device) GetGPUVoltage() (uint32, uint32, Return) {
 	return integer, decimal, ret
 }
 
+// ixml.DeviceGetGpuBusyStatus()
+func DeviceGetGpuBusyStatus(device Device) (uint32, Return) {
+	return device.GetGpuBusyStatus()
+}
+
+// 0 is idle, 1 is busy.
+func (device Device) GetGpuBusyStatus() (uint32, Return) {
+	var busyStatus uint32
+	ret := ixmlDeviceGetGpuBusyStatus(device, &busyStatus)
+	return busyStatus, ret
+}
+
+// ixml.DeviceFastClearDevice()
+func DeviceFastClearDevice(device Device) Return {
+	return device.FastClearDevice()
+}
+
+func (device Device) FastClearDevice() Return {
+	ret := ixmlDeviceFastClearDevice(device)
+	return ret
+}
+
 type Info struct {
 	Pid           uint32
 	Name          string
@@ -297,6 +330,21 @@ type Info struct {
 
 func (device Device) GetComputeRunningProcesses() ([]Info, Return) {
 	processInfos, ret := deviceGetComputeRunningProcesses(device)
+	if ret != SUCCESS {
+		return nil, ret
+	}
+
+	Infos := make([]Info, len(processInfos))
+	for i, processInfo := range processInfos {
+		Infos[i].Pid = processInfo.Pid
+		Infos[i].Name = getPidName(processInfo.Pid)
+		Infos[i].UsedGpuMemory = processInfo.UsedGpuMemory / 1024 / 1024
+	}
+	return Infos, ret
+}
+
+func (device Device) GetComputeAllProcesses() ([]Info, Return) {
+	processInfos, ret := deviceGetComputeAllProcesses(device)
 	if ret != SUCCESS {
 		return nil, ret
 	}
@@ -323,6 +371,62 @@ func deviceGetComputeRunningProcesses(device Device) ([]ProcessInfo_v1, Return) 
 		}
 		InfoCount *= 2
 	}
+}
+
+func deviceGetComputeAllProcesses(device Device) ([]ProcessInfo, Return) {
+	var infoCount uint32 = 1
+	for {
+		infos := make([]ProcessInfo, infoCount)
+		queryCount := infoCount
+		ret := ixmlDeviceGetComputeAllProcesses(device, &queryCount, &infos[0])
+		if ret == SUCCESS {
+			if queryCount <= uint32(len(infos)) {
+				return infos[:queryCount], ret
+			}
+			// Defensive fallback: some driver implementations may return SUCCESS while
+			// still reporting a larger required count than current buffer capacity.
+			infoCount = queryCount
+			continue
+		}
+		if ret != ERROR_INSUFFICIENT_SIZE {
+			return nil, ret
+		}
+		if queryCount <= infoCount {
+			queryCount = infoCount * 2
+		}
+		infoCount = queryCount
+	}
+}
+
+// ixml.DeviceReset()
+func DeviceReset(device Device) Return {
+	return device.Reset()
+}
+
+func (device Device) Reset() Return {
+	ret := ixmlDeviceReset(device)
+	return ret
+}
+
+// ixml.DeviceGetResetStatus()
+func DeviceGetResetStatus(device Device) (uint32, Return) {
+	return device.GetResetStatus()
+}
+
+func (device Device) GetResetStatus() (uint32, Return) {
+	var status uint32
+	ret := ixmlDeviceGetResetStatus(device, &status)
+	return status, ret
+}
+
+// ixml.DeviceSetResetStatus()
+func DeviceSetResetStatus(device Device, status uint32) Return {
+	return device.SetResetStatus(status)
+}
+
+func (device Device) SetResetStatus(status uint32) Return {
+	ret := ixmlDeviceSetResetStatus(device, status)
+	return ret
 }
 
 // ixml.DeviceGetCurrentClocksThrottleReasons()
@@ -424,6 +528,31 @@ func (device Device) GetHealth() (uint64, Return) {
 	return health, ret
 }
 
+// DeviceGetIxLinkInfo returns the IX Link ports connecting two devices.
+func DeviceGetIxLinkInfo(device1, device2 Device) (uint32, []uint32, []uint32, Return) {
+	return device1.GetIxLinkInfo(device2)
+}
+
+func (device Device) GetIxLinkInfo(device2 Device) (uint32, []uint32, []uint32, Return) {
+	var linkCount uint32
+	var port, remotePort [NVLINK_MAX_LINKS]uint32
+	ret := ixmlDeviceGetIxLinkInfo(device, device2, &linkCount, &port[0], &remotePort[0])
+	if ret != SUCCESS {
+		return 0, nil, nil, ret
+	}
+	return linkCount, port[:linkCount], remotePort[:linkCount], ret
+}
+
+// DeviceGetIxLinkCount returns the IX Link count between two devices.
+func DeviceGetIxLinkCount(device1, device2 Device) (uint32, Return) {
+	return device1.GetIxLinkCount(device2)
+}
+
+func (device Device) GetIxLinkCount(device2 Device) (uint32, Return) {
+	linkCount, _, _, ret := device.GetIxLinkInfo(device2)
+	return linkCount, ret
+}
+
 // ixml.DeviceGetTopology()
 func DeviceGetTopology(device1, device2 Device) (GpuTopologyLevel, Return) {
 	return device1.GetTopology(device2)
@@ -433,6 +562,28 @@ func (device Device) GetTopology(device2 Device) (GpuTopologyLevel, Return) {
 	var pathInfo GpuTopologyLevel
 	ret := nvmlDeviceGetTopologyCommonAncestor(device, device2, &pathInfo)
 	return pathInfo, ret
+}
+
+// ixml.DeviceGetP2PStatus()
+func DeviceGetP2PStatus(device1 Device, device2 Device, p2pIndex GpuP2PCapsIndex) (GpuP2PStatus, Return) {
+	return device1.GetP2PStatus(device2, p2pIndex)
+}
+
+func (device1 Device) GetP2PStatus(device2 Device, p2pIndex GpuP2PCapsIndex) (GpuP2PStatus, Return) {
+	var p2pStatus GpuP2PStatus
+	ret := nvmlDeviceGetP2PStatus(device1, device2, p2pIndex, &p2pStatus)
+	return p2pStatus, ret
+}
+
+// ixml.DeviceGetNvLinkState()
+func DeviceGetNvLinkState(device Device, link int) (EnableState, Return) {
+	return device.GetNvLinkState(link)
+}
+
+func (device Device) GetNvLinkState(link int) (EnableState, Return) {
+	var isActive EnableState
+	ret := nvmlDeviceGetNvLinkState(device, uint32(link), &isActive)
+	return isActive, ret
 }
 
 // ixml.DeviceGetPowerManagementLimit()
@@ -485,7 +636,8 @@ func DeviceRegisterEvents(device Device, eventTypes uint64, set EventSet) Return
 }
 
 func (device Device) RegisterEvents(eventTypes uint64, set EventSet) Return {
-	return nvmlDeviceRegisterEvents(device, eventTypes, set.(nvmlEventSet))
+	ret := nvmlDeviceRegisterEvents(device, eventTypes, set.(nvmlEventSet))
+	return ret
 }
 
 // ixml.DeviceGetSupportedEventTypes()

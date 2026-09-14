@@ -22,7 +22,7 @@ PKG_BINDINGS_DIR = $(PKG_DIR)/ixml
 
 SOURCES = $(shell find $(GEN_BINDINGS_DIR) -type f)
 
-.PHONY: all test clean
+.PHONY: all test clean samples
 .PHONY: bindings test-bindings clean-bindings
 
 all: bindings
@@ -32,6 +32,8 @@ bindings: $(SOURCES)
 	c-for-go -nostamp -out $(PKG_DIR) $(GEN_BINDINGS_DIR)/ixml.yml
 	cp -f $(GEN_BINDINGS_DIR)/*.h $(PKG_BINDINGS_DIR)
 	cp -f $(GEN_BINDINGS_DIR)/cgo_helpers.go $(PKG_BINDINGS_DIR)
+	go run $(GEN_BINDINGS_DIR)/inject_debug_log.go -- $(PKG_BINDINGS_DIR)/ixml.go
+	gofmt -w $(PKG_BINDINGS_DIR)/ixml.go
 	cd $(PKG_BINDINGS_DIR); \
 		go tool cgo -godefs types.go > types_gen.go; \
 		go fmt types_gen.go; \
@@ -41,6 +43,9 @@ bindings: $(SOURCES)
 COVERAGE_FILE := coverage.out
 test: bindings
 	go test -v -coverprofile=$(COVERAGE_FILE) $(MODULE)/pkg/...
+
+samples:
+	$(MAKE) -C samples run
 
 coverage: test
 	cat $(COVERAGE_FILE) | grep -v "_mock.go" > $(COVERAGE_FILE).no-mocks
